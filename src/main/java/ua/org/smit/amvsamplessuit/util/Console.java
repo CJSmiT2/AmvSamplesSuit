@@ -37,8 +37,9 @@ public class Console {
             process.waitFor();
             if (process.exitValue() == 1){
                 log.error("ERROR of execute command!");
+                process.destroy();
+                throw new RuntimeException();
             }
-            process.destroy();
         
         } catch (Exception ex) {
             log.error(ex);

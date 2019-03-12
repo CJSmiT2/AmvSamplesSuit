@@ -5,10 +5,10 @@
  */
 package ua.org.smit.amvsamplessuit.service.splitanalyzeengine.util;
 
-import ua.org.smit.amvsamplessuit.util.Ffmpeg;
 import java.io.File;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import ua.org.smit.amvsamplessuit.util.Ffmpeg;
 import ua.org.smit.amvsamplessuit.util.FilesUtil;
 
 /**
@@ -24,19 +24,14 @@ public class CutFileUtil {
         
         File singleCutFolder = new File(folderForSplitedFile + File.separator + ss);
         makeEmptyFolder(singleCutFolder);
-        
         String singleCutedFilename = ss + "-" + FilesUtil.getFileNameWithoutExtension(srcVideo)+ ".mp4";
         
-        File cutFile = new File(singleCutFolder + File.separator + singleCutedFilename);
-        
-        if (!cutFile.exists()) {
-            new Ffmpeg().cut(
-                srcVideo, 
-                singleCutFolder, 
-                singleCutedFilename,
-                ss, 
-                sampleLengthInSec);
-        }
+        File cutFile = new Ffmpeg().cut(
+                            srcVideo, 
+                            singleCutFolder, 
+                            singleCutedFilename,
+                            ss, 
+                            sampleLengthInSec);
         
         return cutFile;
     }

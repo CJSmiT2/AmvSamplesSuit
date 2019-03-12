@@ -5,11 +5,11 @@
  */
 package ua.org.smit.amvsamplessuit.service.splitanalyzeengine.util;
 
-import ua.org.smit.amvsamplessuit.util.Ffmpeg;
 import java.io.File;
 import java.util.ArrayList;
 import ua.org.smit.amvsamplessuit.service.settings.Resolution;
 import ua.org.smit.amvsamplessuit.service.settings.Settings;
+import ua.org.smit.amvsamplessuit.util.Ffmpeg;
 import ua.org.smit.amvsamplessuit.util.FilesUtil;
 
 /**
@@ -28,12 +28,11 @@ public class FramesUtil {
             
             removeFrames(frames);
             
-            new Ffmpeg().splitToImages(
-                singleCutFile, 
-                framesFolder, 
-                resolution, 
-                imgExtensionForSpliting);
-            return FilesUtil.getFiles(framesFolder);
+            return new Ffmpeg().splitToImages(
+                                    singleCutFile, 
+                                    framesFolder, 
+                                    resolution, 
+                                    imgExtensionForSpliting);
         } else {
             return frames;
         }

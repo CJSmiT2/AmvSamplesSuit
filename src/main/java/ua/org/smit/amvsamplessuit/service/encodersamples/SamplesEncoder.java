@@ -41,7 +41,7 @@ public class SamplesEncoder {
         
         File tmpFolder = new File("tmp" + File.separator + FilesUtil.getFileNameWithoutExtension(sample));
         if (tmpFolder.exists()) {
-            FilesUtil.deleteFolderWithFiles(tmpFolder);
+            clean(tmpFolder);
         }
         tmpFolder.mkdirs();
         tmpFolder.setWritable(true);
@@ -52,10 +52,13 @@ public class SamplesEncoder {
             removeDublicateFramesFromSample(tmpFolder);
         }
         
-        File mp4 = new File("tmp" + File.separator + sample.getName());
-        new Ffmpeg().makeMp4FromImages(tmpFolder, mp4, Settings.getCrf());
+        File mp4 = new Ffmpeg().makeMp4FromImages(
+                tmpFolder, 
+                new File("tmp" + File.separator + sample.getName()), 
+                Settings.getCrf());
         
-        FilesUtil.deleteFolderWithFiles(tmpFolder);
+        clean(tmpFolder);
+        
         return mp4;
     }
     
@@ -116,6 +119,10 @@ public class SamplesEncoder {
 
     private boolean isFrameDublicate(int framePercent, int avgPercent) {
         return framePercent < ( avgPercent / 2 );
+    }
+
+    private void clean(File folder) {
+        FilesUtil.deleteFolderWithFiles(folder);
     }
     
 }

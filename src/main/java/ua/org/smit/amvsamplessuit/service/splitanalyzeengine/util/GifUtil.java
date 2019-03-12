@@ -23,15 +23,12 @@ public class GifUtil {
         log.info("Make gif: " + singleCutFile);
         
         File framesFolder = new File(singleCutFile.getParentFile() + File.separator + "frames");
-        
         String gifFileName = FilesUtil.getFileNameWithoutExtension(singleCutFile) + ".gif";
-        
-        File gifFile = new File(singleCutFile.getParentFile() + File.separator + gifFileName);
-        
-        if (!gifFile.exists()) {
-            new Ffmpeg().makeGif(framesFolder, gifFile, imgExtensionForSpliting);
-        }
-        
-        return gifFile;
+
+        return new Ffmpeg().makeGif(
+                framesFolder, 
+                new File(singleCutFile.getParentFile() + File.separator + gifFileName), 
+                imgExtensionForSpliting);
+
     }
 }

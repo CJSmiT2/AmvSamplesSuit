@@ -1,0 +1,11 @@
+groups_by_samples
+groups_by_titles
+target
+test
+tmp
+completed_files_list.txt
+config.properties
+nbactions.xml
+queue_files_list.txt
+statistics.txt
+log*

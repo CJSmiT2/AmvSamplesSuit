@@ -9,3 +9,11 @@ nbactions.xml
 queue_files_list.txt
 statistics.txt
 log*
+/UItest/nbproject/private/
+/UItest/build/
+/OpenSpace.16.03.19/nbproject/private/
+/JavaApplication74/nbproject/private/
+/JavaApplication74/build/
+/GloomCitySite/nbproject/private/
+/GloomCitySite/build/
+/OpenSpaceV3/nbproject/private/

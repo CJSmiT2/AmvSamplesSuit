@@ -4,7 +4,7 @@
 <html>
    <head>
       <meta charset="UTF-8" />
-      <title>AmvSamles Suit</title>
+      <title>AmvSampler</title>
       <jsp:include page="headLinks.jsp" />
 
    </head>

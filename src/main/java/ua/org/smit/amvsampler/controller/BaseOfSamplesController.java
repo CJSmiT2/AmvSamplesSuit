@@ -25,6 +25,7 @@ import ua.org.smit.amvsampler.service.groups.GroupsInterface;
 import ua.org.smit.amvsampler.service.settings.Settings;
 import ua.org.smit.amvsampler.util.Access;
 import ua.org.smit.amvsampler.util.Base64Util;
+import ua.org.smit.amvsampler.util.CookieUtil;
 
 /**
  *
@@ -81,6 +82,8 @@ public class BaseOfSamplesController {
         model.addAttribute("base64", new Base64Util());
         model.addAttribute("titlesGroups", groups.getGroups(GroupType.TITLES));
         model.addAttribute("samplesGroups", groups.getGroups(GroupType.SAMPLES));
+        
+        model.addAttribute("lastAddParamsForTitles", CookieUtil.read("lastAddParamsForTitles", request));
         
         return "samples_folder";
     }

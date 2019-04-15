@@ -7,6 +7,8 @@ package ua.org.smit.amvsampler.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import static java.lang.Thread.sleep;
+import java.util.logging.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -17,6 +19,8 @@ import org.apache.log4j.Logger;
 public class Console {
    
     private static final Logger log = LogManager.getLogger(Console.class);
+    
+    private static final int sleep = 0;
    
     public static void exec(String cmd) {
        log.info("START exec cmd: " + cmd);
@@ -45,5 +49,10 @@ public class Console {
             log.error(ex);
         }
        log.info("END exec cmd.");
+        try {
+            sleep(sleep);
+        } catch (InterruptedException ex) {
+            java.util.logging.Logger.getLogger(Console.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

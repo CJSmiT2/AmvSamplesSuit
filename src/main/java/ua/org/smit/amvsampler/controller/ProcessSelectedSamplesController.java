@@ -8,6 +8,7 @@ package ua.org.smit.amvsampler.controller;
 import java.io.File;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import ua.org.smit.amvsampler.service.encodersamples.ExportEncodeSamplesQueue;
 import ua.org.smit.amvsampler.service.groups.GroupType;
 import ua.org.smit.amvsampler.service.groups.GroupsInterface;
 import ua.org.smit.amvsampler.service.statistics.StatisticsInfoInterface;
+import ua.org.smit.amvsampler.util.CookieUtil;
 import ua.org.smit.amvsampler.util.SelectedSamples;
 
 /**
@@ -38,9 +40,10 @@ public class ProcessSelectedSamplesController {
     @Autowired
     private StatisticsInfoInterface statisticsInfo;
     
-    @RequestMapping(value = {"process_selected"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"process_selected"})
     public String processSelected(
             HttpServletRequest request,
+            HttpServletResponse response,
             @RequestParam(value = "folderName") String folderName,
             @RequestParam(value = "selected_action") String selectedAction,
             @RequestParam(value = "samples_group", required = false) String samplesGroup,
@@ -91,6 +94,7 @@ public class ProcessSelectedSamplesController {
         } else if (selectedAction.equalsIgnoreCase("add_folder_to_titles_group")){
             
             groups.addInGroup(titleGroup, folderName, GroupType.TITLES);
+            CookieUtil.write("lastAddParamsForTitles", "folderName=" + folderName + "&title_group=" + titleGroup, response);
             messagesService.add(Type.info, folderName + " added to group '" + titleGroup + "'");
             
         } else {

@@ -38,7 +38,7 @@ class FramesExtractor {
         }
             
         frames = new FramesUtil().create(singleCutFile, Settings.getResolutionForGifAndAnalyzing(), Settings.getImgExtensionForSpliting());
-        if (frames.size() < Settings.getFramesCountInSample() - 1) {
+        if (frames.size() == 0 ) {
             log.info("Small size of frames '" + frames.size() + "'! BREAK!");
             
             FilesUtil.deleteFolderWithFiles(singleCutFile.getParentFile());

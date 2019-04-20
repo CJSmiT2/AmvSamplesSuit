@@ -94,7 +94,7 @@ public class ProcessSelectedSamplesController {
         } else if (selectedAction.equalsIgnoreCase("add_folder_to_titles_group")){
             
             groups.addInGroup(titleGroup, folderName, GroupType.TITLES);
-            CookieUtil.write("lastAddParamsForTitles", "folderName=" + folderName + "&title_group=" + titleGroup, response);
+            CookieUtil.write("lastTitleGroup", titleGroup, response);
             messagesService.add(Type.info, folderName + " added to group '" + titleGroup + "'");
             
         } else {

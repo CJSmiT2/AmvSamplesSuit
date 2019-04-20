@@ -51,8 +51,8 @@
                             <input type="submit" class="btn btn-success" value="Submit">
                         </div>
                         <div class="col-sm-2">
-                            <c:if test="${lastAddParamsForTitles != null}">
-                                <a href="process_selected?selected_action=add_folder_to_titles_group&${lastAddParamsForTitles}" class="btn btn-default btn-xs">Add in Last Titles Group</a>
+                            <c:if test="${lastTitleGroup != null}">
+                                <a href="process_selected?selected_action=add_folder_to_titles_group&folderName=${folderName}&title_group=${lastTitleGroup}" class="btn btn-default btn-xs">Add in Last Titles Group</a>
                             </c:if>
                         </div>
                     </div>

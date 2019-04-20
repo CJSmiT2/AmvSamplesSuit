@@ -83,7 +83,7 @@ public class BaseOfSamplesController {
         model.addAttribute("titlesGroups", groups.getGroups(GroupType.TITLES));
         model.addAttribute("samplesGroups", groups.getGroups(GroupType.SAMPLES));
         
-        model.addAttribute("lastAddParamsForTitles", CookieUtil.read("lastAddParamsForTitles", request));
+        model.addAttribute("lastTitleGroup", CookieUtil.read("lastTitleGroup", request));
         
         return "samples_folder";
     }

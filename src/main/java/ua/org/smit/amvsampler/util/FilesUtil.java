@@ -15,21 +15,20 @@ import java.util.ArrayList;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-
 /**
  *
  * @author smit
  */
 public class FilesUtil {
-    
+
     private static final Logger log = LogManager.getLogger(FilesUtil.class);
-    
-    public static ArrayList<File> getFiles(File folder){
+
+    public static ArrayList<File> getFiles(File folder) {
         ArrayList<File> filesList = new ArrayList();
         if (!isFolderExistChecking(folder)) {
             return filesList;
         }
-        
+
         File[] listOfFiles = folder.listFiles();
 
         for (int i = 0; i < listOfFiles.length; i++) {
@@ -37,16 +36,16 @@ public class FilesUtil {
                 filesList.add(listOfFiles[i]);
             }
         }
-        
+
         return filesList;
     }
-    
-    public static ArrayList<File> getFolders(File folder){
+
+    public static ArrayList<File> getFolders(File folder) {
         ArrayList<File> foldersList = new ArrayList();
         if (!isFolderExistChecking(folder)) {
             return foldersList;
         }
-        
+
         File[] listOfFiles = folder.listFiles();
 
         for (int i = 0; i < listOfFiles.length; i++) {
@@ -54,16 +53,16 @@ public class FilesUtil {
                 foldersList.add(listOfFiles[i]);
             }
         }
-        
+
         return foldersList;
     }
-    
-    public static void move(File src, File dest){
+
+    public static void move(File src, File dest) {
         log.info("\nmove: " + src + "\n  to: " + dest);
-        if (!src.exists()){
+        if (!src.exists()) {
             throw new RuntimeException("Fail to move file. Src file not exist! " + src.getAbsolutePath());
         }
-        
+
         boolean result = src.renameTo(dest);
         if (result & dest.exists()) {
             src.delete();
@@ -71,23 +70,23 @@ public class FilesUtil {
             throw new RuntimeException("Fail to move file.");
         }
     }
-    
-    public static void copy(File source, File dest){
-        if (!source.exists()){
+
+    public static void copy(File source, File dest) {
+        if (!source.exists()) {
             throw new RuntimeException("Fail to copy file. Src file not exist! " + source.getAbsolutePath());
         }
-        if (dest.exists()){
+        if (dest.exists()) {
             log.info("WARNING! The file will be rewritten! " + dest.getAbsolutePath());
         }
-            
+
         FileChannel sourceChannel = null;
         FileChannel destChannel = null;
         try {
-            
+
             sourceChannel = new FileInputStream(source).getChannel();
             destChannel = new FileOutputStream(dest).getChannel();
             destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
-            
+
         } catch (FileNotFoundException ex) {
             log.error(ex);
         } catch (IOException ex) {
@@ -102,43 +101,41 @@ public class FilesUtil {
         }
 
     }
-    
+
     public static String getFileExtension(File file) {
         String fileName = file.getName();
-        if(fileName.lastIndexOf(".") != -1){
-            return fileName.substring(fileName.lastIndexOf(".")+1);
+        if (fileName.lastIndexOf(".") != -1) {
+            return fileName.substring(fileName.lastIndexOf(".") + 1);
         } else {
             throw new RuntimeException("Extension not found in file name! " + file.getName());
         }
     }
-    
+
     public static String getFileExtension(String fileName) {
-        if(fileName.lastIndexOf(".") != -1){
-            return fileName.substring(fileName.lastIndexOf(".")+1);
+        if (fileName.lastIndexOf(".") != -1) {
+            return fileName.substring(fileName.lastIndexOf(".") + 1);
         } else {
             throw new RuntimeException("Extension not found in file name! " + fileName);
         }
     }
-    
-    public static String getFileNameWithoutExtension(File file){
+
+    public static String getFileNameWithoutExtension(File file) {
         return file.getName().replaceFirst("[.][^.]+$", "");
     }
 
-    
-    
-    public static void deleteFolderWithFiles(File file){
+    public static void deleteFolderWithFiles(File file) {
         for (File childFile : file.listFiles()) {
-                if (childFile.isDirectory()) {
-                    deleteFolderWithFiles(childFile);
-                } else {
-                    if (!childFile.delete()) {
-                        try {
-                            throw new IOException();
-                        } catch (IOException ex) {
-                            log.error(ex);
-                        }
+            if (childFile.isDirectory()) {
+                deleteFolderWithFiles(childFile);
+            } else {
+                if (!childFile.delete()) {
+                    try {
+                        throw new IOException();
+                    } catch (IOException ex) {
+                        log.error(ex);
                     }
                 }
+            }
         }
 
         if (!file.delete()) {
@@ -149,53 +146,56 @@ public class FilesUtil {
             }
         }
     }
-    
-    public static long getFilesSize(ArrayList<File> files){
+
+    public static long getFilesSize(ArrayList<File> files) {
         long size = 0;
-        for (File file:files){
-            if (file.isFile()){
+        for (File file : files) {
+            if (file.isFile()) {
                 size += file.length();
             }
         }
         return size;
     }
-    
+
     public static ArrayList<File> getAllFilesRecurcive(File root) {
         ArrayList<File> files = new ArrayList();
 
         File[] list = root.listFiles();
 
-        if (list==null) return files;
+        if (list == null) {
+            return files;
+        }
 
-        for (File file:list) {
+        for (File file : list) {
             if (file.isDirectory()) {
                 ArrayList<File> filesInDir = getAllFilesRecurcive(file);
                 files.addAll(filesInDir);
-            }
-            else {
+            } else {
                 files.add(file);
             }
         }
-        
+
         return files;
     }
-    
+
     public static ArrayList<File> getAllFoldersNotRecursive(File folder) {
         ArrayList<File> folders = new ArrayList();
 
         File[] list = folder.listFiles();
 
-        if (list==null) return folders;
+        if (list == null) {
+            return folders;
+        }
 
-        for (File file:list) {
+        for (File file : list) {
             if (file.isDirectory()) {
                 folders.add(file);
             }
         }
-        
+
         return folders;
     }
-    
+
     public static void makeEmptyFile(File textFile) {
 //        removeFile(textFile);
         try {
@@ -204,19 +204,33 @@ public class FilesUtil {
             new RuntimeException(ex);
         }
     }
-    
+
     public static void removeFile(File textFile) {
         if (textFile.exists()) {
             textFile.delete();
         }
     }
-    
+
     private static boolean isFolderExistChecking(File folder) {
-        if (!folder.exists() || !folder.isDirectory()){
+        if (!folder.exists() || !folder.isDirectory()) {
             return false;
         }
         return true;
     }
 
-    
+    public static void moveFilesOnlyFromFolderToFolder(File src, File dest) {
+        ArrayList<File> files = FilesUtil.getFiles(src);
+        for (File file : files) {
+            
+            String path = file.getParentFile().getAbsolutePath(); // mnt/ramdisk/BeatriceRaws_Durararax2_Ketsu_01_BDRip_1920x1080_x264_FLAC/0
+            String[] splited = path.split(File.separator);
+            int ss = Integer.valueOf(splited[splited.length-1]); // 0
+            
+            File destSsFolder = new File(dest + File.separator + ss);
+            destSsFolder.mkdir();
+            FilesUtil.copy(file, new File(destSsFolder + File.separator + file.getName()));
+            file.delete();
+        }
+    }
+
 }

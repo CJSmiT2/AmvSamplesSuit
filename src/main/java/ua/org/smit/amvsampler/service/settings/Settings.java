@@ -37,9 +37,11 @@ public class Settings {
     private static File srcFolder;
     private static File baseOfSamplesFolder;
     private static File exportFolder;
+    private static File ramDisk;
     private static boolean localhostOnly = true;
     private static boolean needCorrectionsOfSampleLength = true;
     private static boolean createSampleWithoutDublicatesFrames = false;
+    private static boolean useRamDisk = false;
     
     public static final String AVG_PERCENT_FILE_NAME = "avgPercent.txt";
     public static final String RAGE_FILE_NAME = "rage.txt";
@@ -95,10 +97,12 @@ public class Settings {
             srcFolder = new File(base64.decode(property.getProperty("srcFolder")));
             baseOfSamplesFolder = new File(base64.decode(property.getProperty("baseOfSamplesFolder")));
             exportFolder = new File(base64.decode(property.getProperty("exportFolder")));
+            ramDisk = new File(base64.decode(property.getProperty("ramDisk")));
             
             localhostOnly = Boolean.valueOf(property.getProperty("localhostOnly"));
             needCorrectionsOfSampleLength = Boolean.valueOf(property.getProperty("needCorrectionsOfSampleLength"));
             createSampleWithoutDublicatesFrames = Boolean.valueOf(property.getProperty("createSampleWithoutDublicatesFrames"));
+            useRamDisk = Boolean.valueOf(property.getProperty("useRamDisk"));
             
         } catch (IOException ex) {
             log.error("Error load '" + SETTINGS_FILE + "'!" + ex);
@@ -124,6 +128,7 @@ public class Settings {
         params.add("localhostOnly = " + localhostOnly);
         params.add("needCorrectionsOfSampleLength = " + needCorrectionsOfSampleLength);
         params.add("createSampleWithoutDublicatesFrames = " + createSampleWithoutDublicatesFrames);
+        params.add("useRamDisk = " + useRamDisk);
         
         Base64Util base64 = new Base64Util();
         
@@ -143,6 +148,12 @@ public class Settings {
             params.add("exportFolder = " + base64.encode(exportFolder.getAbsolutePath()));
         } else {
             params.add("exportFolder = ");
+        }
+        
+        if (ramDisk != null) {
+            params.add("ramDisk = " + base64.encode(ramDisk.getAbsolutePath()));
+        } else {
+            params.add("ramDisk = ");
         }
         
        log.info("Save in config file: " + params);
@@ -246,5 +257,15 @@ public class Settings {
     public static int getCrf() {
         return crf;
     }
+
+    public static File getRamDisk() {
+        return ramDisk;
+    }
+
+    public static boolean isUseRamDisk() {
+        return useRamDisk;
+    }
+    
+    
     
 }

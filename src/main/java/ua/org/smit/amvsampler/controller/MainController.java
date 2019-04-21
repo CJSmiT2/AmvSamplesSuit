@@ -28,7 +28,7 @@ import ua.org.smit.amvsampler.util.FilesUtil;
  */
 @Controller
 public class MainController {
-    
+
     @Autowired
     private Settings settingsService;
     @Autowired
@@ -39,35 +39,35 @@ public class MainController {
     private CompleteAndQueueListsInterface completeAndQueueLists;
     @Autowired
     private StatisticsInfoInterface statisticsInfo;
-    
-    @RequestMapping(value = { "/" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public String home(
-            Model model, 
+            Model model,
             HttpServletRequest request) {
         Access.check(request, settingsService.isLocalhostOnly());
-        
-        if (!Settings.isSettingsFileExist()){
+
+        if (!Settings.isSettingsFileExist()) {
             return "redirect:create_config_file_step1";
         }
-        
+
         CuttingFilesQueue.instance();
-        
+
         model.addAttribute("samplesInGroupsSize", groups.getSamplesFromAllGroups().size());
         model.addAttribute("statisticsInfo", statisticsInfo.get());
         model.addAttribute("groupsInfoTitles", groups.getGroupsInfo(GroupType.TITLES));
         model.addAttribute("groupsInfoSamples", groups.getGroupsInfo(GroupType.SAMPLES));
         model.addAttribute("messages", messagesService.getMessagesAndClear());
-        
+
         return "home";
     }
-    
-    @RequestMapping(value = { "/source_folder" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/source_folder"}, method = RequestMethod.GET)
     public String sourceFolder(
             Model model,
             HttpServletRequest request) {
         Access.check(request, settingsService.isLocalhostOnly());
-        
-        if (!settingsService.getSrcFolder().exists()){
+
+        if (!settingsService.getSrcFolder().exists()) {
             messagesService.add(Type.warning, "Source folder not set in settings! Configure the program on Settings page!");
             model.addAttribute("messages", messagesService.getMessagesAndClear());
         } else {

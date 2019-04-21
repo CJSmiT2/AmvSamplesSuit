@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author smit
  */
-public class CompleteSamplesImpl implements CompleteSamplesInterface{
+public class CompleteSamplesImpl implements CompleteSamplesInterface {
 
     @Override
     public ArrayList<Sample> getSamplesByLimits(String folderName, Limits limits) {
@@ -70,7 +70,6 @@ public class CompleteSamplesImpl implements CompleteSamplesInterface{
 //    public void moveToExportFolder(ArrayList<File> folders, HttpServletRequest request) {
 //        CompleteSamplesService.moveToExportFolder(folders, request);
 //    }
-
     @Override
     public int deleteSelectedSamples(ArrayList<File> foldersFromGroup, HttpServletRequest request) {
         return CompleteSamplesService.deleteSelectedSamples(foldersFromGroup, request);
@@ -100,6 +99,4 @@ public class CompleteSamplesImpl implements CompleteSamplesInterface{
         }
     }
 
-    
-    
 }

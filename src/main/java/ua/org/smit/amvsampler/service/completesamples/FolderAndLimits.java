@@ -12,7 +12,7 @@ import java.io.File;
  * @author smit
  */
 public class FolderAndLimits {
-    
+
     private final File folder;
     private final int avgPercentLimit;
     private final int countOfSelectedSamples;
@@ -45,8 +45,5 @@ public class FolderAndLimits {
     public String toString() {
         return "FolderAndLimit{" + "folder=" + folder + ", avgPercentLimit=" + avgPercentLimit + ", countOfSelectedSamples=" + countOfSelectedSamples + ", rage=" + rage + '}';
     }
-    
-    
-    
-    
+
 }

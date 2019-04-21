@@ -10,6 +10,7 @@ package ua.org.smit.amvsampler.messages;
  * @author smit
  */
 public class Message {
+
     private final Type type;
     private final String text;
 
@@ -25,6 +26,5 @@ public class Message {
     public String getText() {
         return text;
     }
-    
-    
+
 }

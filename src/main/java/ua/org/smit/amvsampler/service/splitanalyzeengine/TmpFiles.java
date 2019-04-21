@@ -34,13 +34,13 @@ class TmpFiles {
             log.debug("Use HDD disk");
             destFile = new File(Settings.getBaseOfSamplesFolder() + File.separator + fileName);
         }
-        
+
         if (!destFile.exists()) {
             log.info("Copy:\nsrc = " + srcVideo + "\ntmp = " + destFile);
-            
+
             long time = System.currentTimeMillis();
             FilesUtil.copy(srcVideo, destFile);
-            
+
             log.info("Copy is complete! Time: " + ((System.currentTimeMillis() - time) / 1000) + "sec");
         }
 

@@ -12,7 +12,7 @@ import java.io.File;
  * @author smit
  */
 public class Sample {
-    
+
     private File parentFolder; // title of anime, series etc.
     private File gif;
     private File mp4;
@@ -26,8 +26,8 @@ public class Sample {
     public void setParentFolder(File parentFolder) {
         this.parentFolder = parentFolder;
     }
-    
-    public File getSsFolder(){
+
+    public File getSsFolder() {
         return new File(parentFolder + File.separator + ss);
     }
 
@@ -62,35 +62,32 @@ public class Sample {
     public void setSs(int ss) {
         this.ss = ss;
     }
-    
-    public String getTime(){
+
+    public String getTime() {
         int h = ss / 3600;
         int m = ss % 3600 / 60;
         int s = ss % 3600 % 60;
-        
+
         String hours = String.valueOf(h);
-        if (h < 10){
+        if (h < 10) {
             hours = "0" + h;
         }
         String mins = String.valueOf(m);
-        if (m < 10){
+        if (m < 10) {
             mins = "0" + m;
         }
         String sec = String.valueOf(s);
-        if (s < 10){
+        if (s < 10) {
             sec = "0" + s;
         }
-        
+
         return hours + ":" + mins + ":" + sec;
-        
+
     }
 
     @Override
     public String toString() {
         return "Sample{" + "parentFolder=" + parentFolder + ", gif=" + gif + ", mp4=" + mp4 + ", avgPercent=" + avgPercent + ", ss=" + ss + '}';
     }
-    
-    
-    
-    
+
 }

@@ -22,21 +22,21 @@ import ua.org.smit.amvsampler.util.Access;
  */
 @RestController
 public class ShutdownController implements ApplicationContextAware {
-    
+
     @Autowired
     private Settings settingsService;
-     
+
     private ApplicationContext context;
-     
+
     @GetMapping("/shutdown")
     public void shutdownContext(HttpServletRequest request) {
         Access.check(request, settingsService.isLocalhostOnly());
         ((ConfigurableApplicationContext) context).close();
     }
- 
+
     @Override
     public void setApplicationContext(ApplicationContext ctx) throws BeansException {
         this.context = ctx;
-         
+
     }
 }

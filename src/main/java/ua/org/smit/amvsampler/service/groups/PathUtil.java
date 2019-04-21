@@ -16,26 +16,26 @@ import ua.org.smit.amvsampler.service.settings.Settings;
  * @author smit
  */
 class PathUtil {
-    
+
     private static final Logger log = LogManager.getLogger(PathUtil.class);
 
     static void convertToDirect(ArrayList<String> samplesPaths) {
-        for (int i = 0; i<samplesPaths.size(); i++){
+        for (int i = 0; i < samplesPaths.size(); i++) {
             String relativePath = samplesPaths.get(i);
             String direct = convertToDirect(relativePath);
             samplesPaths.set(i, direct);
         }
     }
-    
+
     static void convertToRelative(ArrayList<String> samplesPaths) {
-        for (int i = 0; i<samplesPaths.size(); i++){
+        for (int i = 0; i < samplesPaths.size(); i++) {
             String direct = samplesPaths.get(i);
             String relativePath = convertToRelative(direct);
             samplesPaths.set(i, relativePath);
         }
     }
-    
-    static String convertToRelative(String sampleFile){
+
+    static String convertToRelative(String sampleFile) {
         String baseOfSamples = Settings.getBaseOfSamplesFolder().getAbsolutePath();
         String path = sampleFile.substring(baseOfSamples.length() + 1);
 //        log.info(sampleFile + " to " + path);
@@ -47,5 +47,5 @@ class PathUtil {
 //        log.info(relativePath + " to " + path);
         return path;
     }
-    
+
 }

@@ -28,18 +28,18 @@ public class TxtFileService {
         }
         return TextOnFile.readByLine(txtFile);
     }
-    
+
     public static void add(File txtFile, File videoFile) {
         TextOnFile.addTextInFile(txtFile, videoFile.getName());
     }
-    
-    public static void reWrite(File txtFile, ArrayList<String> lines){
+
+    public static void reWrite(File txtFile, ArrayList<String> lines) {
         TextOnFile.reWriteTextInFile(txtFile, lines);
     }
 
     public static boolean exist(File txtFile, String videoFileName) {
-        for (String fileNameFromQueue : getAll(txtFile)){
-            if (videoFileName.equals(fileNameFromQueue)){
+        for (String fileNameFromQueue : getAll(txtFile)) {
+            if (videoFileName.equals(fileNameFromQueue)) {
                 return true;
             }
         }
@@ -57,5 +57,5 @@ public class TxtFileService {
     public static String getFirst(File txtFile) {
         return getAll(txtFile).get(0);
     }
-    
+
 }

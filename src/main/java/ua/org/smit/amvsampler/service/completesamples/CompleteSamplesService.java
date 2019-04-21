@@ -14,7 +14,6 @@ import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import ua.org.smit.amvsampler.service.encodersamples.SamplesEncoder;
 import ua.org.smit.amvsampler.service.settings.Settings;
 import ua.org.smit.amvsampler.util.Base64Util;
 import ua.org.smit.amvsampler.util.FilesUtil;
@@ -28,30 +27,30 @@ import ua.org.smit.amvsampler.util.TextOnFile;
 class CompleteSamplesService {
 
     private static final Logger log = LogManager.getLogger(CompleteSamplesService.class);
-    
-    static ArrayList<Sample> getSamplesByLimits(String folderName, Limits limits){
+
+    static ArrayList<Sample> getSamplesByLimits(String folderName, Limits limits) {
         ArrayList<Sample> samples = SamplesInFolder.get(folderName);
         Iterator<Sample> iterator = samples.iterator();
         while (iterator.hasNext()) {
-           Sample sample = iterator.next();
-           if (sample.getAvgPercent() < limits.getMinAvgPercent() || isOutOfRage(sample, limits)) {
-               iterator.remove();
-           }
+            Sample sample = iterator.next();
+            if (sample.getAvgPercent() < limits.getMinAvgPercent() || isOutOfRage(sample, limits)) {
+                iterator.remove();
+            }
         }
-        
+
         return samples;
     }
-    
+
     static ArrayList<Sample> getSamplesByLimits(String folderName) {
         Limits limits = readLimits(folderName);
         return getSamplesByLimits(folderName, limits);
     }
-    
+
     static int deleteSamplesByLimits(String folderName) {
         ArrayList<Sample> samplesWithMoreThanMinPercentLImit = getSamplesByLimits(folderName);
         int count = 0;
-        for (Sample sample : SamplesInFolder.get(folderName)){
-            if (!SearchListSamples.isFound(sample, samplesWithMoreThanMinPercentLImit)){
+        for (Sample sample : SamplesInFolder.get(folderName)) {
+            if (!SearchListSamples.isFound(sample, samplesWithMoreThanMinPercentLImit)) {
                 delete(sample);
                 count++;
             }
@@ -74,14 +73,14 @@ class CompleteSamplesService {
             return 0;
         }
     }
-    
+
     private static String getRage(File folderWithSample) {
         File rage = SamplesFiles.getRageFile(folderWithSample);
         if (rage.exists()) {
             return TextOnFile.readByLine(rage).get(0);
         } else {
             ArrayList<Sample> samples = SamplesInFolder.get(folderWithSample.getName());
-            return "0-" + samples.get(samples.size()-1).getSs();
+            return "0-" + samples.get(samples.size() - 1).getSs();
         }
     }
 
@@ -90,7 +89,7 @@ class CompleteSamplesService {
         saveRage(limits.getFolderName(), limits.getRageByString());
         saveMinAvgPercentLimit(limits.getFolderName(), limits.getMinAvgPercent());
     }
-    
+
     static Limits readLimits(String folderName) {
         File folderWithSample = SamplesFiles.getFolderFromBaseByName(folderName);
         Limits limits = new Limits(folderName, getAvgPercentLimit(folderWithSample), getRage(folderWithSample));
@@ -101,27 +100,27 @@ class CompleteSamplesService {
     private static void saveRage(String folderName, String rage) {
         File rageFile = SamplesFiles.getRageFile(folderName);
         makeEmptyFile(rageFile);
-        
+
         ArrayList<String> textInLines = new ArrayList();
         textInLines.add(rage);
         TextOnFile.reWriteTextInFile(rageFile, textInLines);
-        
+
         log.info("Save: " + rageFile);
     }
 
     private static void saveMinAvgPercentLimit(String folderName, int minAvgPercent) {
         File avgPercentFile = SamplesFiles.getAvgPercentFile(folderName);
         makeEmptyFile(avgPercentFile);
-        
+
         ArrayList<String> textInLines = new ArrayList();
         textInLines.add(String.valueOf(minAvgPercent));
         TextOnFile.reWriteTextInFile(avgPercentFile, textInLines);
-        
+
         log.info("Save: " + avgPercentFile);
     }
 
     private static boolean isOutOfRage(Sample sample, Limits limits) {
-        if (sample.getSs() < limits.getSsStart() || sample.getSs() >  limits.getSsEnd()){
+        if (sample.getSs() < limits.getSsStart() || sample.getSs() > limits.getSsEnd()) {
             return true;
         }
         return false;
@@ -147,43 +146,42 @@ class CompleteSamplesService {
 //            moveToExportFolder(folder.getName(), request);
 //        }
 //    }
-    
     static int deleteSelectedSamples(ArrayList<File> foldersFromGroup, HttpServletRequest request) {
         int count = 0;
-        
-        for (File folder : foldersFromGroup){
-            for (Sample sample : SamplesInFolder.get(folder.getName())){
+
+        for (File folder : foldersFromGroup) {
+            for (Sample sample : SamplesInFolder.get(folder.getName())) {
                 String pathInbase64 = new Base64Util().encode(sample.getMp4().toString());
                 String name = request.getParameter(pathInbase64);
-                if (name != null){
+                if (name != null) {
                     delete(sample);
                     count++;
                 }
             }
         }
-        
+
         return count;
     }
-    
+
     static int deleteNotSelectedSamples(String folderName, HttpServletRequest request) {
         ArrayList<Sample> notForDelete = new ArrayList();
         ArrayList<Sample> samplesAll = SamplesInFolder.get(folderName);
-        for (Sample sample : samplesAll){
+        for (Sample sample : samplesAll) {
             String pathInbase64 = new Base64Util().encode(sample.getMp4().toString());
             String name = request.getParameter(pathInbase64);
-            if (name != null){
+            if (name != null) {
                 notForDelete.add(sample);
             }
         }
-        
+
         int deletedCount = 0;
-        for (Sample sample : samplesAll){
-            if (!SearchListSamples.isFound(sample, notForDelete)){
+        for (Sample sample : samplesAll) {
+            if (!SearchListSamples.isFound(sample, notForDelete)) {
                 delete(sample);
                 deletedCount++;
             }
         }
-        
+
         return deletedCount;
     }
 
@@ -195,52 +193,52 @@ class CompleteSamplesService {
     }
 
     private static void delete(Sample sample) {
-        try{
+        try {
             FilesUtil.deleteFolderWithFiles(sample.getSsFolder());
-        } catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             log.warn("Cant delete sample folder: " + sample.getSsFolder());
         }
     }
 
     static ArrayList<Sample> getSamples(ArrayList<File> foldersWithSplitedFiles) {
         ArrayList<Sample> samples = new ArrayList();
-        for (File folders : foldersWithSplitedFiles){
+        for (File folders : foldersWithSplitedFiles) {
             samples.addAll(SamplesInFolder.get(folders.getName()));
         }
         return samples;
     }
-    
+
     static ArrayList<Sample> getSamplesByPaths(ArrayList<String> samplesSsPath) {
         ArrayList<Sample> samples = new ArrayList();
-        
-        for (String sampleSsPath : samplesSsPath){
+
+        for (String sampleSsPath : samplesSsPath) {
             try {
                 samples.add(SamplesInFolder.getSample(new File(sampleSsPath)));
             } catch (FileNotFoundException ex) {
                 log.warn("Cant find sample folder by path '" + sampleSsPath + "' " + ex);
             }
         }
-        
+
         return samples;
     }
 
     static ArrayList<String> getSelectedSamplesPaths(String folderName, HttpServletRequest request) {
         ArrayList<String> samplesPath = new ArrayList();
-        
-        for (Sample sample : SamplesInFolder.get(folderName)){
+
+        for (Sample sample : SamplesInFolder.get(folderName)) {
             String pathInbase64 = new Base64Util().encode(sample.getMp4().toString());
             String name = request.getParameter(pathInbase64);
-            if (name != null){
+            if (name != null) {
                 samplesPath.add(sample.getSsFolder().getAbsolutePath());
             }
         }
-        
+
         return samplesPath;
     }
 
     private static ArrayList<File> getFilesFromSamples(ArrayList<Sample> samples) {
         ArrayList<File> files = new ArrayList();
-        for (Sample sample : samples){
+        for (Sample sample : samples) {
             files.add(sample.getMp4());
         }
         return files;
@@ -266,6 +264,4 @@ class CompleteSamplesService {
 //            }
 //        }
 //    }
-
-    
 }

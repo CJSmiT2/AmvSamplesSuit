@@ -15,13 +15,13 @@ import ua.org.smit.amvsampler.service.completesamples.Sample;
  *
  * @author smit
  */
-public class GroupsImpl implements GroupsInterface{
-    
+public class GroupsImpl implements GroupsInterface {
+
     private static final Logger log = LogManager.getLogger(GroupsImpl.class);
 
     @Override
     public void createGroup(String groupName, GroupType type) {
-        if (type == GroupType.TITLES){
+        if (type == GroupType.TITLES) {
             GroupsService.createGroupForTitles(groupName);
         } else if (type == GroupType.SAMPLES) {
             GroupsService.createGroupForSamples(groupName);
@@ -31,7 +31,7 @@ public class GroupsImpl implements GroupsInterface{
     @Override
     public void addInGroup(String groupName, String folderOrSample, GroupType type) {
         log.info("Add to group '" + groupName + "', type='" + type + "', folderOrSample = '" + folderOrSample + "'");
-        if (type == GroupType.TITLES){
+        if (type == GroupType.TITLES) {
             GroupsService.addInGroupForTitles(groupName, folderOrSample);
         } else if (type == GroupType.SAMPLES) {
             GroupsService.addInGroupForSamples(groupName, folderOrSample);
@@ -40,7 +40,7 @@ public class GroupsImpl implements GroupsInterface{
 
     @Override
     public boolean isExistInGroup(String groupName, String folderOrSample, GroupType type) {
-        if (type == GroupType.TITLES){
+        if (type == GroupType.TITLES) {
             return GroupsService.isExistInTitlesGroup(groupName, folderOrSample);
         } else if (type == GroupType.SAMPLES) {
             return GroupsService.isExistInSamplesGroup(groupName, folderOrSample);
@@ -50,7 +50,7 @@ public class GroupsImpl implements GroupsInterface{
 
     @Override
     public ArrayList<String> getGroups(GroupType type) {
-        if (type == GroupType.TITLES){
+        if (type == GroupType.TITLES) {
             return GroupsService.getGroupsForTitles();
         } else {
             return GroupsService.getGroupsForSamples();
@@ -59,7 +59,7 @@ public class GroupsImpl implements GroupsInterface{
 
     @Override
     public ArrayList<String> getFromAllGroups(GroupType type) {
-        if (type == GroupType.TITLES){
+        if (type == GroupType.TITLES) {
             return GroupsService.getFoldersSamplesFromAllTitlesGroups();
         } else {
             return GroupsService.getSamplesFromAllSamplesGroups();
@@ -68,7 +68,7 @@ public class GroupsImpl implements GroupsInterface{
 
     @Override
     public void removeFromGroup(String groupName, String folderName, GroupType type) {
-        if (type == GroupType.TITLES){
+        if (type == GroupType.TITLES) {
             GroupsService.removeFromTitlesGroup(groupName, folderName);
         } else {
             GroupsService.removeFromSamplesGroup(groupName, folderName);
@@ -77,7 +77,7 @@ public class GroupsImpl implements GroupsInterface{
 
     @Override
     public void deleteGroup(String groupName, GroupType type) {
-        if (type == GroupType.TITLES){
+        if (type == GroupType.TITLES) {
             GroupsService.deleteGroupForTitles(groupName);
         } else {
             GroupsService.deleteGroupForSamples(groupName);
@@ -106,7 +106,7 @@ public class GroupsImpl implements GroupsInterface{
 
     @Override
     public ArrayList<GroupInfo> getGroupsInfo(GroupType type) {
-        if (type == GroupType.TITLES){
+        if (type == GroupType.TITLES) {
             return GroupsService.getGroupsInfoForTitles();
         } else {
             return GroupsService.getGroupsInfoForSamples();
@@ -132,5 +132,5 @@ public class GroupsImpl implements GroupsInterface{
     public ArrayList<File> getTitlesFromSamplesGroup(String groupName) {
         return GroupsService.getTitlesFromSamplesGroup(groupName);
     }
-    
+
 }

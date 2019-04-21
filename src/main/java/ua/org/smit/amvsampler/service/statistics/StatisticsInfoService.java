@@ -7,43 +7,42 @@ package ua.org.smit.amvsampler.service.statistics;
 
 import ua.org.smit.amvsampler.service.CompleteAndQueueListsImpl;
 
-
 /**
  *
  * @author smit
  */
 class StatisticsInfoService {
-    
-    StatisticsInfo get(){
+
+    StatisticsInfo get() {
         StatisticsInfo statisticsInfo = new StatisticsInfo();
         statisticsInfo.setProcessedFilesCount(new CompleteAndQueueListsImpl().getCompletedFiles().size());
         return statisticsInfo;
     }
-    
-    void addOneCreated(){
+
+    void addOneCreated() {
         StatisticsInfo statisticsInfo = new StatisticsInfo();
         statisticsInfo.addOneCreated();
         statisticsInfo.save();
     }
-    
+
     void addCreated(int count) {
         StatisticsInfo statisticsInfo = new StatisticsInfo();
         statisticsInfo.addCreated(count);
         statisticsInfo.save();
     }
-    
-    void addOneRemoved(){
+
+    void addOneRemoved() {
         StatisticsInfo statisticsInfo = new StatisticsInfo();
         statisticsInfo.addOneRemoved();
         statisticsInfo.save();
     }
-    
-    void addOneProcessed(){
+
+    void addOneProcessed() {
         StatisticsInfo statisticsInfo = new StatisticsInfo();
         statisticsInfo.addOneProcessed();
         statisticsInfo.save();
     }
-    
+
     void removeOneFromCreated() {
         StatisticsInfo statisticsInfo = new StatisticsInfo();
         statisticsInfo.removeOneFromCreated();
@@ -73,5 +72,5 @@ class StatisticsInfoService {
         statisticsInfo.addToRemoved(count);
         statisticsInfo.save();
     }
-    
+
 }

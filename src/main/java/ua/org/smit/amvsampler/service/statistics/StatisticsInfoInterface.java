@@ -10,17 +10,25 @@ package ua.org.smit.amvsampler.service.statistics;
  * @author smit
  */
 public interface StatisticsInfoInterface {
-    
+
     StatisticsInfo get();
+
     void addOneCreated();
+
     void addOneRemoved();
+
     void addOneProcessed();
+
     void addToProcessed(int size);
+
     void removeOneFromCreated();
+
     void removeOneFromRemoved();
+
     void removeOneFromProcessed();
+
     void removeFromCreated(int samplesCount);
 
     public void addToRemoved(int count);
-    
+
 }

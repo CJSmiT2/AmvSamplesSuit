@@ -27,7 +27,6 @@ import ua.org.smit.amvsampler.util.TextOnFile;
 public class ThreadSplitAnalyze implements Runnable {
 
     private final File srcVideo;
-//    private final ArrayList<File> framesForDelete = new ArrayList();
 
     private static final Logger log = LogManager.getLogger(ThreadSplitAnalyze.class);
 
@@ -50,9 +49,7 @@ public class ThreadSplitAnalyze implements Runnable {
         if (Settings.isUseRamDisk()) {
             FilesUtil.deleteFolderWithFiles(srcVideoTmp.getParentFile());
         }
-        
 
-//        removeUnnecessaryFrames(framesForDelete);
         EngineSplitAnalyze.resetStatusValues();
 
         if (!EngineSplitAnalyze.isCancelSpliting()) {
@@ -94,7 +91,6 @@ public class ThreadSplitAnalyze implements Runnable {
             File lastGif = new GifUtil().create(singleCutFile, Settings.getImgExtensionForSpliting());
             EngineSplitAnalyze.setLastGif(lastGif);
 
-//            framesForDelete.addAll(frames);
             removeUnnecessaryFrames(frames);
 
             if (Settings.isUseRamDisk()) {

@@ -15,46 +15,46 @@ import ua.org.smit.amvsampler.util.StringUtil;
  * @author smit
  */
 public class Groups {
-    
+
     private final File groupsFolder;
 
     public Groups(File groupsFolder) {
         this.groupsFolder = groupsFolder;
     }
-    
-    File getGroupFile(String groupName){
+
+    File getGroupFile(String groupName) {
         return new File(groupsFolder + File.separator + groupName);
     }
-    
-    void createGroupFile(){
-        if (!groupsFolder.exists()){
+
+    void createGroupFile() {
+        if (!groupsFolder.exists()) {
             groupsFolder.mkdir();
         }
     }
-    
-    public void createGroup(String groupName){
+
+    public void createGroup(String groupName) {
         createGroupFile();
-        
+
         groupName = StringUtil.getWithAllowedSymbols(groupName);
-        
+
         File groupTxtFile = getGroupFile(groupName);
-        if (!groupTxtFile.exists()){
+        if (!groupTxtFile.exists()) {
             FilesUtil.makeEmptyFile(groupTxtFile);
         }
     }
-    
-    public void deleteGroup(String groupName){
+
+    public void deleteGroup(String groupName) {
         File groupTxtFile = new File(groupsFolder + File.separator + groupName);
         groupTxtFile.delete();
     }
-    
-    public ArrayList<String> getGroupsNames(){
+
+    public ArrayList<String> getGroupsNames() {
         ArrayList<String> groups = new ArrayList();
-        for (File fileGroup : FilesUtil.getFiles(groupsFolder)){
+        for (File fileGroup : FilesUtil.getFiles(groupsFolder)) {
             groups.add(fileGroup.getName());
         }
         return groups;
-        
+
     }
-    
+
 }

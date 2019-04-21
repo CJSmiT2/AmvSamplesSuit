@@ -14,22 +14,37 @@ import ua.org.smit.amvsampler.service.completesamples.Sample;
  * @author smit
  */
 public interface GroupsInterface {
-    
+
     void createGroup(String groupName, GroupType type);
+
     void addInGroup(String groupName, String folderOrSample, GroupType type);
+
     boolean isExistInGroup(String groupName, String folderOrSample, GroupType type);
+
     ArrayList<String> getGroups(GroupType type);
+
     ArrayList<String> getFromAllGroups(GroupType type);
+
     void removeFromGroup(String groupName, String folderName, GroupType type);
+
     void deleteGroup(String groupName, GroupType type);
+
     ArrayList<File> getTitles(String groupName);
+
     ArrayList<String> getSamples(String groupName);
+
     ArrayList<String> getSamplesFromAllGroups();
+
     void addSamples(ArrayList<String> samplesPath, String samplesGroup);
+
     ArrayList<GroupInfo> getGroupsInfo(GroupType type);
+
     void removeSamplesFromAllSamplesGroups(ArrayList<Sample> samplesForDelete);
+
     int removeFromSamples(ArrayList<String> pathsForDelete, String groupName);
+
     ArrayList<File> findTitlesWithoutGroups(ArrayList<File> allSamplesFolders);
+
     public ArrayList<File> getTitlesFromSamplesGroup(String groupName);
-    
+
 }

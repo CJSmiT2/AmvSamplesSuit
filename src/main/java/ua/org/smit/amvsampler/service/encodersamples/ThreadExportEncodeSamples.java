@@ -17,21 +17,20 @@ import ua.org.smit.amvsampler.util.FilesUtil;
  * @author smit
  */
 public class ThreadExportEncodeSamples implements Runnable {
-    
+
     private static final Logger log = LogManager.getLogger(ThreadExportEncodeSamples.class);
 
     @Override
     public void run() {
         log.info("ThreadExportEncodeSamples is STARTED!");
-        
-        while (true){
-            
+
+        while (true) {
+
 //            log.info("Export samples array size = " + ExportEncodeSamplesQueue.samples.size());
-            
-            if (!ExportEncodeSamplesQueue.samples.isEmpty()){
-                
+            if (!ExportEncodeSamplesQueue.samples.isEmpty()) {
+
                 File sample = ExportEncodeSamplesQueue.samples.get(0);
-                
+
                 SamplesEncoder samplesEncoder = new SamplesEncoder();
                 File encodedSample = samplesEncoder.encode(sample, false);
                 File dest = new File(Settings.getExportFolder() + File.separator + encodedSample.getName());
@@ -41,9 +40,7 @@ public class ThreadExportEncodeSamples implements Runnable {
                 FilesUtil.copy(encodedSample, dest);
                 encodedSample.delete();
 
-                
-                
-                if (Settings.isCreateSampleWithoutDublicatesFrames()){
+                if (Settings.isCreateSampleWithoutDublicatesFrames()) {
                     SamplesEncoder samplesEncoder2 = new SamplesEncoder();
                     File encodedSample2 = samplesEncoder2.encode(sample, true);
                     File dest2 = new File(Settings.getExportFolder() + File.separator + FilesUtil.getFileNameWithoutExtension(encodedSample2) + "_no_dubl.mp4");
@@ -53,10 +50,10 @@ public class ThreadExportEncodeSamples implements Runnable {
                     FilesUtil.copy(encodedSample2, dest2);
                     encodedSample2.delete();
                 }
-                
+
                 ExportEncodeSamplesQueue.samples.remove(sample);
             }
-            
+
             try {
                 sleep(2000);
             } catch (InterruptedException ex) {
@@ -64,5 +61,5 @@ public class ThreadExportEncodeSamples implements Runnable {
             }
         }
     }
-    
+
 }

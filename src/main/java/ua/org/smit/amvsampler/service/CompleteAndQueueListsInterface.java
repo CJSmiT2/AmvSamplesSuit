@@ -13,15 +13,23 @@ import java.util.ArrayList;
  * @author smit
  */
 public interface CompleteAndQueueListsInterface {
-    
+
     ArrayList<File> getUnprocessedVideoFiles();
+
     ArrayList<File> getAllowedVideoFilesFromSrcFolder();
+
     ArrayList<File> getFilesFromQueue();
+
     void moveToCompleteList(File srcVideo);
+
     File getFirstFileFromQueue();
+
     void addToQueueFile(File videoFile);
+
     boolean isExistInQueueFiles(String videoFileName);
+
     void removeFromQueueFile(String videoFileName);
+
     ArrayList<String> getCompletedFiles();
-    
+
 }

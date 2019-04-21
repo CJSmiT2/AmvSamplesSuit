@@ -14,12 +14,12 @@ import java.util.ArrayList;
 class SearchListSamples {
 
     static boolean isFound(Sample needFound, ArrayList<Sample> samplesLIst) {
-        for (Sample sample : samplesLIst){
-            if (sample.getSs() == needFound.getSs()){
+        for (Sample sample : samplesLIst) {
+            if (sample.getSs() == needFound.getSs()) {
                 return true;
             }
         }
         return false;
     }
-    
+
 }

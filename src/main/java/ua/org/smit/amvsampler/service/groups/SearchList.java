@@ -14,12 +14,12 @@ import java.util.ArrayList;
 class SearchList {
 
     static boolean isFound(String needFound, ArrayList<String> listForSearch) {
-        for (String item : listForSearch){
-            if (item.equals(needFound)){
+        for (String item : listForSearch) {
+            if (item.equals(needFound)) {
                 return true;
             }
         }
         return false;
     }
-    
+
 }

@@ -20,47 +20,47 @@ import ua.org.smit.amvsampler.service.groups.GroupsInterface;
 import ua.org.smit.amvsampler.service.settings.Settings;
 import ua.org.smit.amvsampler.service.statistics.StatisticsInfoImpl;
 import ua.org.smit.amvsampler.service.statistics.StatisticsInfoInterface;
- 
+
 @Configuration
 @SpringBootApplication
 public class AmvSamplesSuit {
- 
+
     public static void main(String[] args) {
         SpringApplication.run(AmvSamplesSuit.class, args);
     }
-    
+
     @Bean
-    public Settings getSettingsService(){
+    public Settings getSettingsService() {
         return new Settings();
     }
-    
+
     @Bean
-    public MessagesService messagesService(){
+    public MessagesService messagesService() {
         return new MessagesService();
     }
-    
+
     @Bean
-    public CompleteSamplesInterface completeSamples(){
+    public CompleteSamplesInterface completeSamples() {
         return new CompleteSamplesImpl();
     }
-    
+
     @Bean
-    public GroupsInterface groups(){
+    public GroupsInterface groups() {
         return new GroupsImpl();
     }
-    
+
     @Bean
-    public CompleteAndQueueListsInterface completeAndQueueLists(){
+    public CompleteAndQueueListsInterface completeAndQueueLists() {
         return new CompleteAndQueueListsImpl();
     }
-    
+
     @Bean
-    public StatisticsInfoInterface statisticsInfo(){
+    public StatisticsInfoInterface statisticsInfo() {
         return new StatisticsInfoImpl();
     }
-    
+
     @Bean
-    public StartBrowser startBrowser(){
+    public StartBrowser startBrowser() {
         return new StartBrowser();
     }
 }

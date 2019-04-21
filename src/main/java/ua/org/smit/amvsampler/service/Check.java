@@ -13,14 +13,14 @@ import java.util.ArrayList;
  * @author smit
  */
 class Check {
-    
+
     static boolean unprocessed(File file, ArrayList<String> queueFilesNames, ArrayList<String> completedFilesNames) {
-        for (String queueFile : queueFilesNames){
+        for (String queueFile : queueFilesNames) {
             if (file.getName().equals(queueFile)) {
                 return false;
             }
         }
-        for (String completedFile : completedFilesNames){
+        for (String completedFile : completedFilesNames) {
             if (file.getName().equals(completedFile)) {
                 return false;
             }

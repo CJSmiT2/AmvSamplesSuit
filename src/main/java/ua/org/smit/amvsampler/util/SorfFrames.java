@@ -15,20 +15,20 @@ import org.apache.log4j.Logger;
  * @author smit
  */
 public class SorfFrames {
-    
+
     private static final Logger log = LogManager.getLogger(SorfFrames.class);
-    
-    public static ArrayList<File> byIntegerName(ArrayList<File> frames){
+
+    public static ArrayList<File> byIntegerName(ArrayList<File> frames) {
         ArrayList<File> sorted = new ArrayList();
-        if (!frames.isEmpty()){
+        if (!frames.isEmpty()) {
             int frameName = 0;
-            while(!frames.isEmpty()){
+            while (!frames.isEmpty()) {
                 frameName++;
                 File frame = getByName(frameName, frames);
                 sorted.add(frame);
                 frames.remove(frame);
             }
-            
+
         } else {
             log.error("Frames array for sorting is empty! Return empty list!");
         }
@@ -36,10 +36,10 @@ public class SorfFrames {
     }
 
     private static File getByName(int fileSearch, ArrayList<File> frames) {
-        for (File frame : frames){
+        for (File frame : frames) {
             String fileName = FilesUtil.getFileNameWithoutExtension(frame);
             int fileNameInt = Integer.valueOf(fileName);
-            if (fileNameInt == fileSearch){
+            if (fileNameInt == fileSearch) {
                 return frame;
             }
         }

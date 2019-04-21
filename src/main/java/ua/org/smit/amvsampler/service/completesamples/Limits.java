@@ -10,6 +10,7 @@ package ua.org.smit.amvsampler.service.completesamples;
  * @author smit
  */
 public class Limits {
+
     private String folderName;
     private int minAvgPercent;
     private int ssStart;
@@ -37,7 +38,7 @@ public class Limits {
     public void setSsEnd(int ssEnd) {
         this.ssEnd = ssEnd;
     }
-    
+
     public String getFolderName() {
         return folderName;
     }
@@ -53,7 +54,7 @@ public class Limits {
     public void setMinAvgPercent(int minAvgPercent) {
         this.minAvgPercent = minAvgPercent;
     }
-    
+
     public String getRageByString() {
         return ssStart + "-" + ssEnd;
     }
@@ -63,7 +64,4 @@ public class Limits {
         return "Limits{" + "folderName=" + folderName + ", minAvgPercent=" + minAvgPercent + ", ssStart=" + ssStart + ", ssEnd=" + ssEnd + '}';
     }
 
-    
-
-    
 }

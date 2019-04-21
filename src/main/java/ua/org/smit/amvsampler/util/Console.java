@@ -17,16 +17,16 @@ import org.apache.log4j.Logger;
  * @author smit
  */
 public class Console {
-   
+
     private static final Logger log = LogManager.getLogger(Console.class);
-    
+
     private static final int sleep = 0;
-   
+
     public static void exec(String cmd) {
-       log.info("START exec cmd: " + cmd);
-       try {
+        log.info("START exec cmd: " + cmd);
+        try {
             Process process;
-            if (System.getProperty("os.name").contains("Windows")){
+            if (System.getProperty("os.name").contains("Windows")) {
                 String[] cmds = {"cmd.exe", "/c", cmd};
                 process = Runtime.getRuntime().exec(cmds);
             } else {
@@ -35,20 +35,21 @@ public class Console {
 
             String s;
             BufferedReader br = new BufferedReader(
-                new InputStreamReader(process.getInputStream()));
-            while ((s = br.readLine()) != null)
+                    new InputStreamReader(process.getInputStream()));
+            while ((s = br.readLine()) != null) {
                 log.info("line: " + s);
+            }
             process.waitFor();
-            if (process.exitValue() == 1){
+            if (process.exitValue() == 1) {
                 log.error("ERROR of execute command!");
                 process.destroy();
                 throw new RuntimeException();
             }
-        
+
         } catch (Exception ex) {
             log.error(ex);
         }
-       log.info("END exec cmd.");
+        log.info("END exec cmd.");
         try {
             sleep(sleep);
         } catch (InterruptedException ex) {

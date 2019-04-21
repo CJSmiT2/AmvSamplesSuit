@@ -19,27 +19,27 @@ import ua.org.smit.amvsampler.util.FilesUtil;
 public class FramesUtil {
 
     public ArrayList<File> create(File singleCutFile, Resolution resolution, String imgExtensionForSpliting) {
-        
+
         File framesFolder = new File(singleCutFile.getParentFile() + File.separator + "frames");
         framesFolder.mkdir();
-        
+
         ArrayList<File> frames = FilesUtil.getFiles(framesFolder);
         if (frames.size() < Settings.getFramesCountInSample() - 1) {
-            
+
             removeFrames(frames);
-            
+
             return new Ffmpeg().splitToImages(
-                                    singleCutFile, 
-                                    framesFolder, 
-                                    resolution, 
-                                    imgExtensionForSpliting);
+                    singleCutFile,
+                    framesFolder,
+                    resolution,
+                    imgExtensionForSpliting);
         } else {
             return frames;
         }
     }
 
     private void removeFrames(ArrayList<File> frames) {
-        for (File frame : frames){
+        for (File frame : frames) {
             frame.delete();
         }
     }

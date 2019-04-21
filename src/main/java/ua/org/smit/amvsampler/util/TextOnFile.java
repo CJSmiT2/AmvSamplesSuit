@@ -22,22 +22,26 @@ import java.util.logging.Logger;
  * @author smit
  */
 public class TextOnFile {
-    
-    public static synchronized ArrayList<String> readByLine(File file){
+
+    public static synchronized ArrayList<String> readByLine(File file) {
         ArrayList<String> lines = new ArrayList();
-        
-        if (file.exists() && !file.isFile()) throw new RuntimeException("Is not a file! " + file.getAbsolutePath());
-        if (!file.exists()) return lines;
-        
+
+        if (file.exists() && !file.isFile()) {
+            throw new RuntimeException("Is not a file! " + file.getAbsolutePath());
+        }
+        if (!file.exists()) {
+            return lines;
+        }
+
         FileInputStream fstream = null;
         try {
             fstream = new FileInputStream(file);
             BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
             String strLine;
             //Read File Line By Line
-            while ((strLine = br.readLine()) != null)   {
+            while ((strLine = br.readLine()) != null) {
                 lines.add(strLine);
-            }   
+            }
             br.close();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(TextOnFile.class.getName()).log(Level.SEVERE, null, ex);
@@ -50,25 +54,25 @@ public class TextOnFile {
                 Logger.getLogger(TextOnFile.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         return lines;
     }
-    
-    public static synchronized void removeTextLineFromFile(File textFile, String text){
+
+    public static synchronized void removeTextLineFromFile(File textFile, String text) {
         ArrayList<String> textLines = readByLine(textFile);
-        
+
         Iterator<String> iterator = textLines.iterator();
         while (iterator.hasNext()) {
-           String textInLine = iterator.next();
-           if (textInLine.equals(text)) {
-               iterator.remove();
-           }
+            String textInLine = iterator.next();
+            if (textInLine.equals(text)) {
+                iterator.remove();
+            }
         }
-        
+
         reWriteTextInFile(textFile, textLines);
     }
-    
-    public static synchronized void addTextInFile(File textFile, String text){
+
+    public static synchronized void addTextInFile(File textFile, String text) {
         try {
             FileWriter writer = new FileWriter(textFile, true);
             writer.append(text);
@@ -80,25 +84,27 @@ public class TextOnFile {
             throw new RuntimeException();
         }
     }
-    
+
     public static void addTextInFile(File groupFile, ArrayList<String> text) {
-        for (String line : text){
+        for (String line : text) {
             TextOnFile.addTextInFile(groupFile, line);
         }
     }
-    
-    public static synchronized void reWriteTextInFile(File textFile, ArrayList<String> textInLines){
-        if (!textInLines.isEmpty()){
+
+    public static synchronized void reWriteTextInFile(File textFile, ArrayList<String> textInLines) {
+        if (!textInLines.isEmpty()) {
             File temporaryFile = writeTextInTmpFile(textFile, textInLines);
             removeFile(textFile);
-            
+
             boolean result = temporaryFile.renameTo(textFile);
-            if (result) temporaryFile.delete();
+            if (result) {
+                temporaryFile.delete();
+            }
         } else {
             makeEmptyFile(textFile);
         }
     }
-    
+
     public static void makeEmptyFile(File textFile) {
         removeFile(textFile);
         try {
@@ -111,20 +117,20 @@ public class TextOnFile {
     private static File writeTextInTmpFile(File textFile, ArrayList<String> textInLines) {
         String temporaryFileName = "interim-" + System.currentTimeMillis();
         File interimFile;
-        if (textFile.getParentFile() != null){
+        if (textFile.getParentFile() != null) {
             interimFile = new File(textFile.getParentFile() + File.separator + temporaryFileName);
         } else {
             interimFile = new File(temporaryFileName);
         }
-            
-        if (interimFile.exists()){
+
+        if (interimFile.exists()) {
             throw new RuntimeException("Interim file already exist! But it should be not exist! " + interimFile.getAbsolutePath());
         }
-        
-        for (String text:textInLines){
+
+        for (String text : textInLines) {
             TextOnFile.addTextInFile(interimFile, text);
         }
-        
+
         return interimFile;
     }
 
@@ -134,5 +140,4 @@ public class TextOnFile {
         }
     }
 
-    
 }

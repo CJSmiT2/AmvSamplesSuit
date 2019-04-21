@@ -17,14 +17,14 @@ import javax.imageio.ImageIO;
  * @author smit
  */
 public class ImageToNumbers {
-    
-    public static RgbFrame toFrame(File imgFrame, int maxWidth, int maxHeight){
+
+    public static RgbFrame toFrame(File imgFrame, int maxWidth, int maxHeight) {
         RgbFrame frame = new RgbFrame();
         try {
             BufferedImage img = ImageIO.read(imgFrame);
-            
-            for (int height=0; height<maxHeight; height++){
-                for (int width=0; width<maxWidth; width++){
+
+            for (int height = 0; height < maxHeight; height++) {
+                for (int width = 0; width < maxWidth; width++) {
                     int clr = img.getRGB(width, height);
                     int red = (clr & 0x00ff0000) >> 16;
                     int green = (clr & 0x0000ff00) >> 8;
@@ -32,7 +32,7 @@ public class ImageToNumbers {
                     frame.addPixel(height, width, red, green, blue);
                 }
             }
-            
+
         } catch (IOException ex) {
             Logger.getLogger(ImageToNumbers.class.getName()).log(Level.SEVERE, null, ex);
         }

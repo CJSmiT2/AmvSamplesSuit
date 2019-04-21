@@ -10,7 +10,7 @@ package ua.org.smit.amvsampler.util;
  * @author smit
  */
 public class BubbleSort {
-    
+
     public static void sort(int[] numArray) {
         int n = numArray.length;
         int temp = 0;
@@ -27,5 +27,5 @@ public class BubbleSort {
             }
         }
     }
-    
+
 }

@@ -10,6 +10,7 @@ package ua.org.smit.amvsampler.service.splitanalyzeengine.analyze;
  * @author smit
  */
 public class Pixel {
+
     private final int height;
     private final int width;
     private final int red;
@@ -23,8 +24,8 @@ public class Pixel {
         this.green = green;
         this.blue = blue;
     }
-    
-    public int getCollorsSumm(){
+
+    public int getCollorsSumm() {
         return red + green + blue;
     }
 
@@ -36,21 +37,25 @@ public class Pixel {
     int getWidth() {
         return width;
     }
-    
-    int getHeight(){
+
+    int getHeight() {
         return height;
     }
-    
-    String getSimbol(){
+
+    String getSimbol() {
         // # * - .
         int all = red + green + blue;
         String simbol = "";
-        if (all<=255) return "#";
-        if (all>255 & all<=510) return "*";
-        if (all>510) return "-";
+        if (all <= 255) {
+            return "#";
+        }
+        if (all > 255 & all <= 510) {
+            return "*";
+        }
+        if (all > 510) {
+            return "-";
+        }
         return "e";
     }
-    
-    
-    
+
 }

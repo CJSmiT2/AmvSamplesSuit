@@ -10,7 +10,7 @@ package ua.org.smit.amvsampler.service.groups;
  * @author smit
  */
 public class GroupInfo {
-    
+
     private String name;
     private int groupSize;
 

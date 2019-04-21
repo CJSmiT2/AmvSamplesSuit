@@ -16,18 +16,18 @@ import ua.org.smit.amvsampler.util.FilesUtil;
  * @author smit
  */
 public class GifUtil {
-    
+
     private static final Logger log = LogManager.getLogger(GifUtil.class);
 
     public File create(File singleCutFile, String imgExtensionForSpliting) {
         log.info("Make gif: " + singleCutFile);
-        
+
         File framesFolder = new File(singleCutFile.getParentFile() + File.separator + "frames");
         String gifFileName = FilesUtil.getFileNameWithoutExtension(singleCutFile) + ".gif";
 
         return new Ffmpeg().makeGif(
-                framesFolder, 
-                new File(singleCutFile.getParentFile() + File.separator + gifFileName), 
+                framesFolder,
+                new File(singleCutFile.getParentFile() + File.separator + gifFileName),
                 imgExtensionForSpliting);
 
     }

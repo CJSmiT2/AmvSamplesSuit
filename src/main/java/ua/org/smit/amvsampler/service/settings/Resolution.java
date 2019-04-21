@@ -10,7 +10,7 @@ package ua.org.smit.amvsampler.service.settings;
  * @author smit
  */
 public class Resolution {
-    
+
     public final int width;
     public final int height;
 
@@ -26,7 +26,5 @@ public class Resolution {
     public int getHeight() {
         return height;
     }
-    
-    
-    
+
 }

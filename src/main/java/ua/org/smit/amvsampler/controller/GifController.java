@@ -25,44 +25,45 @@ import ua.org.smit.amvsampler.util.Base64Util;
  */
 @Controller
 public class GifController {
-    
-        private final Base64Util base64 = new Base64Util();
-    
-        @ResponseBody 
-        @RequestMapping(value ="/gif")
-        public ResponseEntity gif(@RequestParam("path") String path) throws FileNotFoundException, IOException {
-            
-            path = base64.decode(path);
-            File gif = new File(path);
-            if (!gif.exists()){
-                System.err.println("Path not exist! " + gif.getAbsolutePath());
-            }
-            InputStream inputStream = new FileInputStream(gif);
-            byte[] fileBytes = org.apache.commons.io.IOUtils.toByteArray(inputStream);
-            inputStream.close();
-            HttpHeadersPreset headers = new HttpHeadersPreset(gif.getName(), "image/gif", gif.length());
-            return new ResponseEntity(fileBytes, headers.getData(), HttpStatus.OK);
-        }
-        
-        class HttpHeadersPreset{
-            private final String fileName;
-            private final String contentType;
-            private final String length;
 
-            public HttpHeadersPreset(String fileName, String contentType, long length) {
-                this.fileName = fileName;
-                this.contentType = contentType;
-                this.length = String.valueOf(length);
-            }
+    private final Base64Util base64 = new Base64Util();
 
-            public HttpHeaders getData(){
-                HttpHeaders responseHeaders = new HttpHeaders();
-                responseHeaders.add("content-disposition", "attachment; filename=" + fileName);
-                responseHeaders.add("Content-Type", contentType);
-                responseHeaders.add("accept-ranges", "bytes");
-                responseHeaders.add("Cache-Control", "max-age=3600");
-                responseHeaders.add("Content-Length", length);
-                return responseHeaders;
-            }
+    @ResponseBody
+    @RequestMapping(value = "/gif")
+    public ResponseEntity gif(@RequestParam("path") String path) throws FileNotFoundException, IOException {
+
+        path = base64.decode(path);
+        File gif = new File(path);
+        if (!gif.exists()) {
+            System.err.println("Path not exist! " + gif.getAbsolutePath());
         }
+        InputStream inputStream = new FileInputStream(gif);
+        byte[] fileBytes = org.apache.commons.io.IOUtils.toByteArray(inputStream);
+        inputStream.close();
+        HttpHeadersPreset headers = new HttpHeadersPreset(gif.getName(), "image/gif", gif.length());
+        return new ResponseEntity(fileBytes, headers.getData(), HttpStatus.OK);
+    }
+
+    class HttpHeadersPreset {
+
+        private final String fileName;
+        private final String contentType;
+        private final String length;
+
+        public HttpHeadersPreset(String fileName, String contentType, long length) {
+            this.fileName = fileName;
+            this.contentType = contentType;
+            this.length = String.valueOf(length);
+        }
+
+        public HttpHeaders getData() {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.add("content-disposition", "attachment; filename=" + fileName);
+            responseHeaders.add("Content-Type", contentType);
+            responseHeaders.add("accept-ranges", "bytes");
+            responseHeaders.add("Cache-Control", "max-age=3600");
+            responseHeaders.add("Content-Length", length);
+            return responseHeaders;
+        }
+    }
 }

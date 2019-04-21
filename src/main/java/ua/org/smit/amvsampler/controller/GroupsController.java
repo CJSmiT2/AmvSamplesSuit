@@ -32,7 +32,7 @@ import ua.org.smit.amvsampler.util.SelectedSamples;
  */
 @Controller
 public class GroupsController {
-    
+
     @Autowired
     private Settings settingsService;
     @Autowired
@@ -41,171 +41,169 @@ public class GroupsController {
     private CompleteSamplesInterface completeSamples;
     @Autowired
     private GroupsInterface groups;
-    
+
     private final String titlesType = GroupType.TITLES.toString().toLowerCase();
     private final String samplesType = GroupType.SAMPLES.toString().toLowerCase();
-    
-    @RequestMapping(value = { "/view_group" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/view_group"}, method = RequestMethod.GET)
     public String baseOfSamplesNotSorted(
             @RequestParam("groupName") String groupName,
             @RequestParam("groupType") String groupType,
-            Model model, 
+            Model model,
             HttpServletRequest request) {
         Access.check(request, Settings.isLocalhostOnly());
 
         ArrayList<File> foldersWithSplitedFiles = groups.getTitles(groupName);
-        
+
         model.addAttribute("foldersWithSplitedFiles", foldersWithSplitedFiles);
         model.addAttribute("messages", messagesService.getMessagesAndClear());
-        
+
         return "folders_with_samples";
     }
-    
-    @RequestMapping(value = { "/view_samples_in_group" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/view_samples_in_group"}, method = RequestMethod.GET)
     public String viewSamplesInGroup(
             @RequestParam("groupName") String groupName,
             @RequestParam("groupType") String groupType,
-            Model model, 
+            Model model,
             HttpServletRequest request) {
         Access.check(request, Settings.isLocalhostOnly());
-        
+
         ArrayList<Sample> samples = new ArrayList();
 
-        if (groupType.equals(titlesType)){
+        if (groupType.equals(titlesType)) {
             ArrayList<File> foldersWithSplitedFiles = groups.getTitles(groupName);
             samples = completeSamples.getSamples(foldersWithSplitedFiles);
-        } else if (groupType.equals(samplesType)){
+        } else if (groupType.equals(samplesType)) {
             ArrayList<String> samplesSsPath = groups.getSamples(groupName);
             samples = completeSamples.getSamplesByPaths(samplesSsPath);
         }
-        
-        
+
         model.addAttribute("samples", samples);
         model.addAttribute("groupName", groupName);
         model.addAttribute("groupType", groupType);
         model.addAttribute("messages", messagesService.getMessagesAndClear());
         model.addAttribute("base64", new Base64Util());
-        
+
         return "samples_folder_common";
     }
-    
-    @RequestMapping(value = { "/groups" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/groups"}, method = RequestMethod.GET)
     public String groups(
             @RequestParam("groupType") String groupType,
-            Model model, 
+            Model model,
             HttpServletRequest request) {
         Access.check(request, settingsService.isLocalhostOnly());
-        
+
         if (groupType.equalsIgnoreCase(titlesType)) {
             model.addAttribute("groups", groups.getGroups(GroupType.TITLES));
-        } else if (groupType.equalsIgnoreCase(samplesType)){
+        } else if (groupType.equalsIgnoreCase(samplesType)) {
             model.addAttribute("groups", groups.getGroups(GroupType.SAMPLES));
         }
-        
+
         model.addAttribute("groupType", groupType);
         model.addAttribute("messages", messagesService.getMessagesAndClear());
         return "groups_manage";
     }
 
-    
-    @RequestMapping(value = { "/create_group" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/create_group"}, method = RequestMethod.GET)
     public String createGroup(
             @RequestParam("groupName") String groupName,
             @RequestParam("groupType") String groupType,
-            Model model, 
+            Model model,
             HttpServletRequest request) {
         Access.check(request, settingsService.isLocalhostOnly());
-        
+
         if (groupType.equalsIgnoreCase(titlesType)) {
             groups.createGroup(groupName, GroupType.TITLES);
-            
-        } else if (groupType.equalsIgnoreCase(samplesType)){
+
+        } else if (groupType.equalsIgnoreCase(samplesType)) {
             groups.createGroup(groupName, GroupType.SAMPLES);
         }
 
         return "redirect:groups?groupType=" + groupType;
     }
-    
-    @RequestMapping(value = { "/delete_group" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/delete_group"}, method = RequestMethod.GET)
     public String deleteGroup(
             @RequestParam("groupName") String groupName,
             @RequestParam("groupType") String groupType,
-            Model model, 
+            Model model,
             HttpServletRequest request) {
         Access.check(request, settingsService.isLocalhostOnly());
-        
+
         model.addAttribute("groupName", groupName);
         model.addAttribute("groupType", groupType);
 
         return "delete_group";
     }
-    
-    @RequestMapping(value = { "/delete_group_confirm" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/delete_group_confirm"}, method = RequestMethod.GET)
     public String deleteGroupConfirm(
             @RequestParam("groupName") String groupName,
             @RequestParam("groupType") String groupType,
             HttpServletRequest request) {
         Access.check(request, settingsService.isLocalhostOnly());
-        
+
         if (groupType.equalsIgnoreCase(titlesType)) {
             groups.deleteGroup(groupName, GroupType.TITLES);
             messagesService.add(Type.info, "Group '" + groupName + "' has deleted!");
-        } else if (groupType.equalsIgnoreCase(samplesType)){
+        } else if (groupType.equalsIgnoreCase(samplesType)) {
             groups.deleteGroup(groupName, GroupType.SAMPLES);
             messagesService.add(Type.info, "Group '" + groupName + "' has deleted!");
         }
 
         return "redirect:groups?groupType=" + groupType;
     }
-    
-    @RequestMapping(value = { "/add_in_group_form" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/add_in_group_form"}, method = RequestMethod.GET)
     public String addInGroupForm(
             @RequestParam("folderName") String folderName,
             @RequestParam("groupType") String groupType,
-            Model model, 
+            Model model,
             HttpServletRequest request) {
         Access.check(request, settingsService.isLocalhostOnly());
-        
+
         model.addAttribute("folderName", folderName);
         model.addAttribute("groupType", groupType);
-        
+
         if (groupType.equalsIgnoreCase(titlesType)) {
             model.addAttribute("groups", groups.getGroups(GroupType.TITLES));
-        } else if (groupType.equalsIgnoreCase(samplesType)){
+        } else if (groupType.equalsIgnoreCase(samplesType)) {
             model.addAttribute("groups", groups.getGroups(GroupType.SAMPLES));
         }
 
         return "add_in_group_form";
     }
-    
+
     @RequestMapping(value = {"process_selected_group"}, method = RequestMethod.POST)
     public String processSelectedGroup(
             HttpServletRequest request,
             @RequestParam(value = "groupName") String groupName,
             @RequestParam("groupType") String groupType,
-            @RequestParam(value = "selected_action") String selectedAction){
-        
-        if (selectedAction.equalsIgnoreCase("export_selected")){
+            @RequestParam(value = "selected_action") String selectedAction) {
+
+        if (selectedAction.equalsIgnoreCase("export_selected")) {
             ExportEncodeSamplesQueue.instance();
             ArrayList<File> titles = SelectedSamples.fingFromRequestAsFiles(request);
             ExportEncodeSamplesQueue.samples.addAll(titles);
             messagesService.add(Type.success, titles.size() + " samples added to export queue!");
-            
-        } else if (selectedAction.equalsIgnoreCase("delete_selected")){
+
+        } else if (selectedAction.equalsIgnoreCase("delete_selected")) {
             ArrayList<File> titles = groups.getTitlesFromSamplesGroup(groupName);
             int count = completeSamples.deleteSelectedSamples(titles, request);
             messagesService.add(Type.warning, "'" + count + "' samples has deleted!");
-            
-        } else if (selectedAction.equalsIgnoreCase("remove_from_samples_group")){
+
+        } else if (selectedAction.equalsIgnoreCase("remove_from_samples_group")) {
             ArrayList<String> selectedSamples = SelectedSamples.fingFromRequest(request);
             int count = groups.removeFromSamples(selectedSamples, groupName);
             messagesService.add(Type.info, "'" + count + "' samples has removed from group!");
-            
+
         } else {
             messagesService.add(Type.danger, "Action is not determined!");
         }
-        
+
         return "redirect:view_samples_in_group?groupName=" + groupName + "&groupType=" + groupType;
     }
-    
+
 }

@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author smit
  */
-public class CompleteAndQueueListsImpl implements CompleteAndQueueListsInterface{
+public class CompleteAndQueueListsImpl implements CompleteAndQueueListsInterface {
 
     @Override
     public ArrayList<File> getUnprocessedVideoFiles() {
@@ -58,5 +58,5 @@ public class CompleteAndQueueListsImpl implements CompleteAndQueueListsInterface
     public ArrayList<String> getCompletedFiles() {
         return FileListsManager.getCompletedFiles();
     }
-    
+
 }

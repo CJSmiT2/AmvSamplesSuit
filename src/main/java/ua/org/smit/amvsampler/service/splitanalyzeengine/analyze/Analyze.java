@@ -17,14 +17,14 @@ import ua.org.smit.amvsampler.service.settings.Resolution;
  * @author smit
  */
 public class Analyze {
-    
+
     private final List<Integer> percents = new ArrayList();
-    
+
     private static final Logger log = LogManager.getLogger(Analyze.class);
 
     public int getAvgPercent(ArrayList<File> frames, Resolution resolution) {
         percents.clear();
-        for (File oneFrame : frames){
+        for (File oneFrame : frames) {
             RgbFrame frame = ImageToNumbers.toFrame(oneFrame, resolution.width, resolution.height);
             int percent = HardAlgoritm.result(frame, resolution.width, resolution.height);
             percents.add(percent);
@@ -37,15 +37,13 @@ public class Analyze {
     public List<Integer> getPercents() {
         return percents;
     }
-    
-    
-    
+
     private int calculateAvgPercent(List<Integer> percents) {
         int summ = 0;
-        for (Integer percent : percents){
+        for (Integer percent : percents) {
             summ += percent;
         }
         return summ / percents.size();
     }
-    
+
 }

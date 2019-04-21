@@ -16,7 +16,7 @@ import ua.org.smit.amvsampler.util.FilesUtil;
  * @author smit
  */
 class FileListsManager {
-    
+
     private static final File COMPLETED_FILES_LIST = new File("completed_files_list.txt");
     private static final File QUEUE_FILES_LIST = new File("queue_files_list.txt");
 
@@ -24,34 +24,34 @@ class FileListsManager {
         ArrayList<File> allFiles = getAllowedVideoFilesFromSrcFolder();
         ArrayList<String> queueFilesNames = TxtFileService.getAll(QUEUE_FILES_LIST);
         ArrayList<String> completedFilesNames = TxtFileService.getAll(COMPLETED_FILES_LIST);
-        
+
         Iterator<File> iterator = allFiles.iterator();
         while (iterator.hasNext()) {
-           File file = iterator.next();
-           if (!Check.unprocessed(file, queueFilesNames, completedFilesNames)) {
-               iterator.remove();
-           }
+            File file = iterator.next();
+            if (!Check.unprocessed(file, queueFilesNames, completedFilesNames)) {
+                iterator.remove();
+            }
         }
-        
+
         return allFiles;
     }
-    
-    static ArrayList<File> getAllowedVideoFilesFromSrcFolder(){
+
+    static ArrayList<File> getAllowedVideoFilesFromSrcFolder() {
         ArrayList<File> files = FilesUtil.getAllFilesRecurcive(Settings.getSrcFolder());
         Iterator<File> iterator = files.iterator();
         while (iterator.hasNext()) {
-           File file = iterator.next();
-           if (!FilesUtil.getFileExtension(file).equalsIgnoreCase("mp4") 
-                   && !FilesUtil.getFileExtension(file).equalsIgnoreCase("mkv")) {
-               iterator.remove();
-           }
+            File file = iterator.next();
+            if (!FilesUtil.getFileExtension(file).equalsIgnoreCase("mp4")
+                    && !FilesUtil.getFileExtension(file).equalsIgnoreCase("mkv")) {
+                iterator.remove();
+            }
         }
         return files;
     }
-    
+
     static File getByName(String fileName) {
-        for (File file : getAllowedVideoFilesFromSrcFolder()){
-            if (file.getName().equals(fileName)){
+        for (File file : getAllowedVideoFilesFromSrcFolder()) {
+            if (file.getName().equals(fileName)) {
                 return file;
             }
         }
@@ -60,7 +60,7 @@ class FileListsManager {
 
     static ArrayList<File> getFilesFromQueue() {
         ArrayList<File> filesInQueue = new ArrayList();
-        for (String videoFileName : TxtFileService.getAll(QUEUE_FILES_LIST)){
+        for (String videoFileName : TxtFileService.getAll(QUEUE_FILES_LIST)) {
             filesInQueue.add(getByName(videoFileName));
         }
         return filesInQueue;
@@ -90,6 +90,5 @@ class FileListsManager {
     static ArrayList<String> getCompletedFiles() {
         return TxtFileService.getAll(COMPLETED_FILES_LIST);
     }
-    
-    
+
 }

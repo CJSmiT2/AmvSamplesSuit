@@ -15,15 +15,15 @@ import ua.org.smit.amvsampler.service.completesamples.Sample;
 public class NormalizeSampleUtil {
 
     public static void setMaxAvgPercentLimit(ArrayList<Sample> samples, int limit) {
-        for (int i = 0 ; i < samples.size(); i++){
-            if (samples.get(i).getAvgPercent() < 0){
+        for (int i = 0; i < samples.size(); i++) {
+            if (samples.get(i).getAvgPercent() < 0) {
                 int avgPercent = samples.get(i).getAvgPercent();
                 samples.get(i).setAvgPercent(avgPercent * (-1));
             }
-            if (samples.get(i).getAvgPercent() > limit){
+            if (samples.get(i).getAvgPercent() > limit) {
                 samples.get(i).setAvgPercent(limit);
             }
         }
     }
-    
+
 }

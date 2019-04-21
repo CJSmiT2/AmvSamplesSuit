@@ -18,25 +18,25 @@ import ua.org.smit.amvsampler.util.Base64Util;
  */
 @Controller
 public class AjaxController {
-        
-        @ResponseBody 
-        @RequestMapping(value ="/get_current_cut_info")
-        public String getCurrentCutInfo(){
-            if (EngineSplitAnalyze.isInProgress() && (EngineSplitAnalyze.getLastGif() != null) ){
-                return "inProgress=true&"
-                        + "fileName=" + EngineSplitAnalyze.getCurrentVideoFile().getName() + "&"
-                        + "samplesCount=" + EngineSplitAnalyze.getSamplesCount() + "&"
-                        + "ss=" + EngineSplitAnalyze.getSs() + "&"
-                        + "lastGifPath=" + new Base64Util().encode(EngineSplitAnalyze.getLastGif().getAbsolutePath());
-            }
-            return "inProgress=false";
+
+    @ResponseBody
+    @RequestMapping(value = "/get_current_cut_info")
+    public String getCurrentCutInfo() {
+        if (EngineSplitAnalyze.isInProgress() && (EngineSplitAnalyze.getLastGif() != null)) {
+            return "inProgress=true&"
+                    + "fileName=" + EngineSplitAnalyze.getCurrentVideoFile().getName() + "&"
+                    + "samplesCount=" + EngineSplitAnalyze.getSamplesCount() + "&"
+                    + "ss=" + EngineSplitAnalyze.getSs() + "&"
+                    + "lastGifPath=" + new Base64Util().encode(EngineSplitAnalyze.getLastGif().getAbsolutePath());
         }
-        
-        @ResponseBody 
-        @RequestMapping(value ="/get_current_export_queue_size")
-        public String getCurrentExportQueueSize(){
-            ExportEncodeSamplesQueue.instance();
-            return String.valueOf(ExportEncodeSamplesQueue.samples.size());
-        }
-        
+        return "inProgress=false";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/get_current_export_queue_size")
+    public String getCurrentExportQueueSize() {
+        ExportEncodeSamplesQueue.instance();
+        return String.valueOf(ExportEncodeSamplesQueue.samples.size());
+    }
+
 }

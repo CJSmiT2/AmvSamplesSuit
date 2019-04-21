@@ -21,19 +21,19 @@ public class ThreadQueueCuttingFiles implements Runnable {
 
     @Override
     public void run() {
-        while (true){
-            
-            if (!EngineSplitAnalyze.isInProgress()){
-                
+        while (true) {
+
+            if (!EngineSplitAnalyze.isInProgress()) {
+
                 CompleteAndQueueListsInterface completeAndQueueLists = new CompleteAndQueueListsImpl();
-                
+
                 if (!completeAndQueueLists.getFilesFromQueue().isEmpty()) {
                     File videoFile = completeAndQueueLists.getFirstFileFromQueue();
                     EngineSplitAnalyze.setCurrentVideoFile(videoFile);
                     EngineSplitAnalyze.instance().splitAndAnalyze(videoFile);
                 }
             }
-            
+
             try {
                 sleep(2000);
             } catch (InterruptedException ex) {
@@ -41,5 +41,5 @@ public class ThreadQueueCuttingFiles implements Runnable {
             }
         }
     }
-    
+
 }

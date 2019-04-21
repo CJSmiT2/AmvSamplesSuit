@@ -30,18 +30,17 @@ class FramesExtractor {
     private static final Logger log = LogManager.getLogger(FramesExtractor.class);
 
     boolean execute() {
-        
-        if (Settings.isUseRamDisk()){
+
+        if (Settings.isUseRamDisk()) {
             singleCutFile = new CutFileUtil().create(
-                    srcVideo, 
-                    new File(Settings.getRamDisk() + File.separator + FilesUtil.getFileNameWithoutExtension(srcVideo)), 
-                    ss, 
+                    srcVideo,
+                    new File(Settings.getRamDisk() + File.separator + FilesUtil.getFileNameWithoutExtension(srcVideo)),
+                    ss,
                     Settings.getSampleLengthInSec());
         } else {
             singleCutFile = new CutFileUtil().create(srcVideo, folderForSplitedFile, ss, Settings.getSampleLengthInSec());
         }
 
-        
         if (!singleCutFile.exists()) {
             log.info("Cant cut file '" + singleCutFile.getName() + "', ss=" + ss + "! BREAK!");
             return false;
@@ -56,45 +55,9 @@ class FramesExtractor {
             return false;
         }
 
-//        if (isNeedCorrection(frames)){
-//            executeCorrection();
-//        }
         return true;
     }
 
-//    private void executeCorrection() {
-//        log.info("Start correction for '" + srcVideo + "', ss='" + ss + "', t='" + Settings.getSampleLengthInSec() + "'");
-//        int sampleLength = 1;
-//        while(true){
-//            FramesExtractor framesExtractor = new FramesExtractor();
-//            framesExtractor.setSrcVideo(srcVideo);
-//            framesExtractor.setFolderForSpletedFiles(folderForSplitedFile);
-//            framesExtractor.setSs(sampleLength);
-//            framesExtractor.setSampleLength(Settings.getSampleLengthInSec());
-//            if (!framesExtractor.execute()){
-//                break;
-//            } 
-//            frames = framesExtractor.getFrames();
-//            singleCutFile = framesExtractor.getSingleCutFile();
-//            
-//            log.info(sampleLength + " sec correction for '" + Settings.getSampleLengthInSec() + "', frames = '" + frames.size() + "'");
-//
-//            if (frames.size() >= Settings.getFramesCountInSample() 
-//                    || sampleLength > Settings.getSampleLengthInSec()){
-//                break;
-//            } else {
-//                sampleLength++;
-//            }
-//        }
-//    }
-//    
-//    private boolean isNeedCorrection(ArrayList<File> frames) {
-//        if (frames.size() > (Settings.getFramesCountInSample() * 2) 
-//                && Settings.isNeedCorrectionOfSampleLength()){
-//            return true;
-//        }
-//        return false;
-//    }
     ArrayList<File> getFrames() {
         return frames;
     }

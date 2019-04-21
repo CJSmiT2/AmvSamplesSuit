@@ -10,18 +10,18 @@ package ua.org.smit.amvsampler.service.queuemanager;
  * @author smit
  */
 public class CuttingFilesQueue {
-    
+
     private static CuttingFilesQueue INSTANCE;
-    
-    public CuttingFilesQueue(){
+
+    public CuttingFilesQueue() {
         new Thread(new ThreadQueueCuttingFiles()).start();
     }
-    
-    public synchronized static CuttingFilesQueue instance(){
-        if (INSTANCE == null){
+
+    public synchronized static CuttingFilesQueue instance() {
+        if (INSTANCE == null) {
             INSTANCE = new CuttingFilesQueue();
         }
         return INSTANCE;
     }
-    
+
 }

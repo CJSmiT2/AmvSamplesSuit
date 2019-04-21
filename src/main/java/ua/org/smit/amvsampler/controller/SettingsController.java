@@ -25,35 +25,35 @@ import ua.org.smit.amvsampler.util.Access;
  */
 @Controller
 public class SettingsController {
-    
+
     @Autowired
     private Settings settingsService;
     @Autowired
     private MessagesService messagesService;
-    
-    @RequestMapping(value = { "/settings" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/settings"}, method = RequestMethod.GET)
     public String settings(Model model, HttpServletRequest request) {
         Access.check(request, settingsService.isLocalhostOnly());
-        
-        if (settingsService.isSrcFolderExist()){
+
+        if (settingsService.isSrcFolderExist()) {
             model.addAttribute("srcFolder", settingsService.getSrcFolder());
         }
-        if (settingsService.isBaseOfSamplesFolderExist()){
+        if (settingsService.isBaseOfSamplesFolderExist()) {
             model.addAttribute("baseOfSamplesFolder", settingsService.getBaseOfSamplesFolder());
         }
-        if (settingsService.isSexportFolderExist()){
+        if (settingsService.isSexportFolderExist()) {
             model.addAttribute("exportFolder", settingsService.getExportFolder());
         }
-        
+
         model.addAttribute("sampleLengthInSec", settingsService.getSampleLengthInSec());
         model.addAttribute("resolutionForGifAndAnalyzing", settingsService.getResolutionForGifAndAnalyzing());
         model.addAttribute("localhostOnly", settingsService.isLocalhostOnly());
         model.addAttribute("messages", messagesService.getMessagesAndClear());
-        
+
         return "settings";
     }
-    
-    @RequestMapping(value = { "/save_settings" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/save_settings"}, method = RequestMethod.GET)
     public String saveSettings(
             @RequestParam("src_folder") String srcFolderInput,
             @RequestParam("base_of_samples") String baseOfSamplesFolderInput,
@@ -63,52 +63,52 @@ public class SettingsController {
             @RequestParam("localhostOnly") String localhostOnly,
             HttpServletRequest request) {
         Access.check(request, settingsService.isLocalhostOnly());
-        
+
         boolean hasErrors = false;
-        
-        if (srcFolderInput.equals(baseOfSamplesFolderInput)){
+
+        if (srcFolderInput.equals(baseOfSamplesFolderInput)) {
             messagesService.add(Type.warning, "Folders cannot be equals!");
             hasErrors = true;
         }
-        
+
         File srcFolder = new File(srcFolderInput);
-        if (srcFolder.exists()){
+        if (srcFolder.exists()) {
             settingsService.setSrcFolder(srcFolder);
         } else {
             messagesService.add(Type.warning, "Folder not exist - " + srcFolder);
             hasErrors = true;
         }
-        
+
         File baseOfSamplesFolder = new File(baseOfSamplesFolderInput);
-        if (baseOfSamplesFolder.exists()){
+        if (baseOfSamplesFolder.exists()) {
             settingsService.setBaseOfSamplesFolder(baseOfSamplesFolder);
         } else {
             messagesService.add(Type.warning, "Folder not exist - " + baseOfSamplesFolder);
             hasErrors = true;
         }
-        
+
         File exportFolder = new File(exportFolderInput);
-        if (exportFolder.exists()){
+        if (exportFolder.exists()) {
             settingsService.setExportFolder(exportFolder);
         } else {
             messagesService.add(Type.warning, "Folder not exist - " + exportFolder);
             hasErrors = true;
         }
- 
+
         settingsService.setSampleLengthInSec(sampleLengthInSecInput);
-        
+
         int width = Integer.valueOf(resolutionGifAnalyzingInput.split("\\*")[0]);
         int height = Integer.valueOf(resolutionGifAnalyzingInput.split("\\*")[1]);
         settingsService.setResolutionForGifAndAnalyzing(new Resolution(width, height));
-        
+
         settingsService.setLocalhostOnly(Boolean.valueOf(localhostOnly));
-        
+
         settingsService.saveSettingsInFile();
-        
+
         if (!hasErrors) {
             messagesService.add(Type.success, "Settings saved!");
         }
- 
+
         return "redirect:settings";
     }
 }

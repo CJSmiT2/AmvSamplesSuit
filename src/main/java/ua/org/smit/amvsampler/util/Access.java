@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
  * @author smit
  */
 public class Access {
-    
-    public static void check(HttpServletRequest request, boolean localHostOnly){
+
+    public static void check(HttpServletRequest request, boolean localHostOnly) {
         if (localHostOnly) {
             String host = getHost(request);
             if (!host.equals("127.0.0.1") && !host.equals("localhost")) {
@@ -23,15 +23,17 @@ public class Access {
             }
         }
     }
-    
-    private static String getHost(HttpServletRequest request){
+
+    private static String getHost(HttpServletRequest request) {
         String host = request.getHeader("host");
-        if (host == null) host = request.getRemoteAddr();
+        if (host == null) {
+            host = request.getRemoteAddr();
+        }
         return getWithoutPort(host);
     }
-    
-    private static String getWithoutPort(String host){
-        if (host.contains(":")){
+
+    private static String getWithoutPort(String host) {
+        if (host.contains(":")) {
             String[] split = host.split(":");
             return split[0];
         } else {

@@ -9,7 +9,7 @@ package ua.org.smit.amvsampler.service.statistics;
  *
  * @author smit
  */
-public class StatisticsInfoImpl implements StatisticsInfoInterface{
+public class StatisticsInfoImpl implements StatisticsInfoInterface {
 
     @Override
     public StatisticsInfo get() {
@@ -30,7 +30,7 @@ public class StatisticsInfoImpl implements StatisticsInfoInterface{
     public void addOneProcessed() {
         new StatisticsInfoService().addOneProcessed();
     }
-    
+
     @Override
     public void addToProcessed(int samplesCount) {
         new StatisticsInfoService().addCreated(samplesCount);

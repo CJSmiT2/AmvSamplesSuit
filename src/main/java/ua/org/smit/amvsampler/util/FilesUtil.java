@@ -221,11 +221,11 @@ public class FilesUtil {
     public static void moveFilesOnlyFromFolderToFolder(File src, File dest) {
         ArrayList<File> files = FilesUtil.getFiles(src);
         for (File file : files) {
-            
+
             String path = file.getParentFile().getAbsolutePath(); // mnt/ramdisk/BeatriceRaws_Durararax2_Ketsu_01_BDRip_1920x1080_x264_FLAC/0
             String[] splited = path.split(File.separator);
-            int ss = Integer.valueOf(splited[splited.length-1]); // 0
-            
+            int ss = Integer.valueOf(splited[splited.length - 1]); // 0
+
             File destSsFolder = new File(dest + File.separator + ss);
             destSsFolder.mkdir();
             FilesUtil.copy(file, new File(destSsFolder + File.separator + file.getName()));

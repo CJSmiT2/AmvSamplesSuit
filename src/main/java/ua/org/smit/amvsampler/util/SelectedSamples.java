@@ -15,36 +15,36 @@ import javax.servlet.http.HttpServletRequest;
  * @author smit
  */
 public class SelectedSamples {
-    
-    public static ArrayList<String> fingFromRequest(HttpServletRequest request){
+
+    public static ArrayList<String> fingFromRequest(HttpServletRequest request) {
         ArrayList<String> samplesPath = new ArrayList();
-        
+
         Enumeration<String> parmsNames = request.getParameterNames();
-        while(parmsNames.hasMoreElements()){
+        while (parmsNames.hasMoreElements()) {
             String param = (String) parmsNames.nextElement();
             File sample = new File(new Base64Util().decode(param));
-            if (sample.exists()){
+            if (sample.exists()) {
                 System.out.println("Found: " + sample);
                 samplesPath.add(sample.getParentFile().getAbsolutePath().toString());
             }
         }
-        
+
         return samplesPath;
     }
-    
-    public static ArrayList<File> fingFromRequestAsFiles(HttpServletRequest request){
+
+    public static ArrayList<File> fingFromRequestAsFiles(HttpServletRequest request) {
         ArrayList<File> samplesPath = new ArrayList();
-        
+
         Enumeration<String> parmsNames = request.getParameterNames();
-        while(parmsNames.hasMoreElements()){
+        while (parmsNames.hasMoreElements()) {
             String param = (String) parmsNames.nextElement();
             File sample = new File(new Base64Util().decode(param));
-            if (sample.exists()){
+            if (sample.exists()) {
                 System.out.println("Found: " + sample);
                 samplesPath.add(sample);
             }
         }
-        
+
         return samplesPath;
     }
 }

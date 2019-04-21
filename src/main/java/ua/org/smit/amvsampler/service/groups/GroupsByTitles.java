@@ -14,42 +14,41 @@ import ua.org.smit.amvsampler.util.TextOnFile;
  *
  * @author smit
  */
-public class GroupsByTitles extends Groups{
+public class GroupsByTitles extends Groups {
 
     public GroupsByTitles(File groupsFolder) {
         super(groupsFolder);
     }
 
-    public void addInGroup(String groupName, String titleFolder){
+    public void addInGroup(String groupName, String titleFolder) {
         ArrayList<String> titles = TextOnFile.readByLine(getGroupFile(groupName));
         titles.add(titleFolder);
         TextOnFile.reWriteTextInFile(getGroupFile(groupName), titles);
     }
-    
-    public ArrayList<String> getFromGroupFile(String groupName){
+
+    public ArrayList<String> getFromGroupFile(String groupName) {
         return TextOnFile.readByLine(getGroupFile(groupName));
     }
-    
-    public void removeFromGroup(String groupName, String titleFolder){
+
+    public void removeFromGroup(String groupName, String titleFolder) {
         ArrayList<String> titles = TextOnFile.readByLine(getGroupFile(groupName));
         Iterator<String> iterator = titles.iterator();
         while (iterator.hasNext()) {
-           String title = iterator.next();
-           if (title.equals(titleFolder)) {
-               iterator.remove();
-           }
+            String title = iterator.next();
+            if (title.equals(titleFolder)) {
+                iterator.remove();
+            }
         }
         TextOnFile.reWriteTextInFile(getGroupFile(groupName), titles);
     }
 
     public ArrayList<String> getFoldersSamplesFromAllGroups() {
         ArrayList<String> foldersSamples = new ArrayList();
-        for (String groupName : getGroupsNames()){
+        for (String groupName : getGroupsNames()) {
             ArrayList<String> foldersSamplesInGroup = TextOnFile.readByLine(getGroupFile(groupName));
             foldersSamples.addAll(foldersSamplesInGroup);
         }
         return foldersSamples;
     }
 
-    
 }

@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.Set;
 import ua.org.smit.amvsampler.service.completesamples.Sample;
 import ua.org.smit.amvsampler.service.settings.Settings;
-import ua.org.smit.amvsampler.service.statistics.StatisticsInfoImpl;
 
 /**
  *
@@ -51,8 +50,6 @@ class GroupsService {
     static void addInGroupForTitles(String groupName, String folderName) {
         GroupsByTitles groups = new GroupsByTitles(Settings.GROUPS_BY_TITLES_FOLDER);
         groups.addInGroup(groupName, folderName);
-
-        new StatisticsInfoImpl().addOneProcessed();
     }
 
     static void removeFromTitlesGroup(String groupName, String folderName) {
@@ -117,8 +114,6 @@ class GroupsService {
     static void addInGroupForSamples(String groupName, String sampleFile) {
         GroupsBySamples groups = new GroupsBySamples(Settings.GROUPS_BY_SAMPLES_FOLDER);
         groups.addInGroup(groupName, sampleFile);
-
-        new StatisticsInfoImpl().addOneProcessed();
     }
 
     static void removeFromSamplesGroup(String groupName, String sampleFile) {
@@ -134,7 +129,6 @@ class GroupsService {
     static void addSamplesToSamplesGroup(ArrayList<String> samplesPath, String samplesGroup) {
         GroupsBySamples groups = new GroupsBySamples(Settings.GROUPS_BY_SAMPLES_FOLDER);
         groups.addInGroup(samplesPath, samplesGroup);
-        new StatisticsInfoImpl().addToProcessed(samplesPath.size());
     }
 
     static ArrayList<GroupInfo> getGroupsInfoForTitles() {
@@ -177,8 +171,6 @@ class GroupsService {
     private static void deleteFromSamplesGroup(String sampleSs, String group) {
         GroupsBySamples groups = new GroupsBySamples(Settings.GROUPS_BY_SAMPLES_FOLDER);
         groups.removeFromGroup(group, sampleSs);
-
-        new StatisticsInfoImpl().removeOneFromProcessed();
     }
 
     static int removeFromSamplesGroup(ArrayList<String> pathsForDelete, String groupName) {

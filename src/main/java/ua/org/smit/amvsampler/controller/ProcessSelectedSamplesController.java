@@ -19,7 +19,6 @@ import ua.org.smit.amvsampler.service.completesamples.CompleteSamplesInterface;
 import ua.org.smit.amvsampler.service.encodersamples.ExportEncodeSamplesQueue;
 import ua.org.smit.amvsampler.service.groups.GroupType;
 import ua.org.smit.amvsampler.service.groups.GroupsInterface;
-import ua.org.smit.amvsampler.service.statistics.StatisticsInfoInterface;
 import ua.org.smit.amvsampler.util.CookieUtil;
 import ua.org.smit.amvsampler.util.SelectedSamples;
 
@@ -36,8 +35,6 @@ public class ProcessSelectedSamplesController {
     private CompleteSamplesInterface completeSamples;
     @Autowired
     private GroupsInterface groups;
-    @Autowired
-    private StatisticsInfoInterface statisticsInfo;
 
     @RequestMapping(value = {"process_selected"})
     public String processSelected(
@@ -60,23 +57,14 @@ public class ProcessSelectedSamplesController {
 
             if (deleteSamples.equals("delete_not_selected")) {
                 int count = completeSamples.deleteNotSelectedSamples(folderName, request);
-                statisticsInfo.removeFromCreated(count);
-                statisticsInfo.addToProcessed(count);
-                statisticsInfo.addToRemoved(count);
                 messagesService.add(Type.warning, "'" + count + "' samples has deleted!");
 
             } else if (deleteSamples.equals("delete_samples_by_min_percent_limit")) {
                 int count = completeSamples.deleteSamplesByLimits(folderName);
-                statisticsInfo.removeFromCreated(count);
-                statisticsInfo.addToProcessed(count);
-                statisticsInfo.addToRemoved(count);
                 messagesService.add(Type.info, "Deleted '" + count + "' samples");
 
             } else if (deleteSamples.equals("delete_all_samples")) {
                 int count = completeSamples.deleteFolder(folderName);
-                statisticsInfo.removeFromCreated(count);
-                statisticsInfo.addToProcessed(count);
-                statisticsInfo.addToRemoved(count);
                 messagesService.add(Type.warning, "'" + folderName + "' has deleted!");
                 return "redirect:base_of_samples_not_sorted";
 

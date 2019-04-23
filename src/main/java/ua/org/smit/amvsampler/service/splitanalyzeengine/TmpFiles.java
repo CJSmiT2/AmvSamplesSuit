@@ -27,7 +27,7 @@ class TmpFiles {
         String fileName = StringUtil.getWithAllowedSymbols(oldFileName) + "." + extension;
 
         File destFile = null;
-        if (Settings.isUseRamDisk() && srcVideo.length() <= 2000000000) { // 2Gb
+        if (Settings.isUseRamDisk() && srcVideo.length() <= 4000000000l) { // 4Gb
             log.debug("Use RAM disk");
             destFile = new File(Settings.getRamDisk() + File.separator + fileName);
         } else {

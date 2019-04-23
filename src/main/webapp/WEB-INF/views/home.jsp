@@ -22,11 +22,7 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <h4>Statistics info</h4>
-                            <p>Samples in groups: <b class="text-success">${samplesInGroupsSize}</b></p>
-                            <p>Not sorted samples: <b class="text-warning">${statisticsInfo.getUnprocessedSamplesCount()}</b></p>
-                            <p>Created samples: <b class="text-primary">${statisticsInfo.getCreatedSamplesCount()}</b></p>
-                            <p>Removed samples: <b>${statisticsInfo.getRemoveSamplesCount()}</b></p>
-                            <p>Processed files: <b>${statisticsInfo.getProcessedFilesCount()}</b></p>
+                            <p>removed</p>
                         </div>
                     </div>
                 </div>

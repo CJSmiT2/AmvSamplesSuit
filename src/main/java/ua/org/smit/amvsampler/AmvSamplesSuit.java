@@ -18,8 +18,6 @@ import ua.org.smit.amvsampler.service.completesamples.CompleteSamplesInterface;
 import ua.org.smit.amvsampler.service.groups.GroupsImpl;
 import ua.org.smit.amvsampler.service.groups.GroupsInterface;
 import ua.org.smit.amvsampler.service.settings.Settings;
-import ua.org.smit.amvsampler.service.statistics.StatisticsInfoImpl;
-import ua.org.smit.amvsampler.service.statistics.StatisticsInfoInterface;
 
 @Configuration
 @SpringBootApplication
@@ -52,11 +50,6 @@ public class AmvSamplesSuit {
     @Bean
     public CompleteAndQueueListsInterface completeAndQueueLists() {
         return new CompleteAndQueueListsImpl();
-    }
-
-    @Bean
-    public StatisticsInfoInterface statisticsInfo() {
-        return new StatisticsInfoImpl();
     }
 
     @Bean

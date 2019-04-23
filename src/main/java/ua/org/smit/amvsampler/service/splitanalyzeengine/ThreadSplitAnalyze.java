@@ -24,7 +24,7 @@ public class ThreadSplitAnalyze implements Runnable {
 
     @Override
     public void run() {
-        new VideoFile().cutAndAnalyze(srcVideo);
+        new VideoFile().createSeparateFilesAndAnalyzeIt(srcVideo);
     }
 
 }

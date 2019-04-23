@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import ua.org.smit.amvsampler.service.CompleteAndQueueListsImpl;
-import ua.org.smit.amvsampler.service.CompleteAndQueueListsInterface;
 import ua.org.smit.amvsampler.service.settings.Settings;
 import ua.org.smit.amvsampler.service.splitanalyzeengine.analyze.Analyze;
 import ua.org.smit.amvsampler.service.splitanalyzeengine.util.GifUtil;
@@ -17,28 +16,16 @@ class VideoFile {
 
     private static final Logger log = LogManager.getLogger(VideoFile.class);
 
-    void cutAndAnalyze(File srcVideo) {
+    void createSeparateFilesAndAnalyzeIt(File srcVideo) {
         long time = System.currentTimeMillis();
         log.info("Start cut and analyze: " + srcVideo);
 
-        File folderForSplitedFile = createFolderForSplitedFile(srcVideo, Settings.getBaseOfSamplesFolder());
+        File srcVideoTmp = TmpFile.copy(srcVideo);
 
-        File srcVideoTmp = TmpFiles.copy(srcVideo);
+        execute(srcVideoTmp, createFolderForSplitedFile(srcVideo));
 
-        execute(srcVideoTmp, folderForSplitedFile);
-
-        srcVideoTmp.delete();
-        if (Settings.isUseRamDisk()) {
-            FilesUtil.deleteFolderWithFiles(srcVideoTmp.getParentFile());
-        }
-
-        EngineSplitAnalyze.resetStatusValues();
-
-        if (!EngineSplitAnalyze.isCancelSpliting()) {
-            CompleteAndQueueListsInterface completeAndQueueLists = new CompleteAndQueueListsImpl();
-            completeAndQueueLists.moveToCompleteList(srcVideo);
-        }
-        EngineSplitAnalyze.setCancelSpliting(false);
+        removeTmpFiles(srcVideoTmp);
+        finalization(srcVideo);
 
         log.info("Complete cut and analyze (time " + ((System.currentTimeMillis() - time) / 1000) + " sec): " + srcVideo);
     }
@@ -53,41 +40,49 @@ class VideoFile {
             }
 
             FramesExtractor framesExtractor = new FramesExtractor();
-            framesExtractor.setSrcVideo(srcVideo);
-            framesExtractor.setFolderForSpletedFiles(folderForSplitedFile);
-            framesExtractor.setSs(ss);
-            framesExtractor.setSampleLength(Settings.getSampleLengthInSec());
-            if (!framesExtractor.execute()) {
+            boolean result = framesExtractor.extract(
+                    srcVideo,
+                    folderForSplitedFile,
+                    ss,
+                    Settings.getSampleLengthInSec());
+
+            if (!result) {
                 break;
             }
 
             File singleCutFile = framesExtractor.getSingleCutFile();
             ArrayList<File> frames = framesExtractor.getFrames();
 
-            int avgPercent = new Analyze().getAvgPercent(frames, Settings.getResolutionForGifAndAnalyzing());
-            writeAvgPercentInTxt(singleCutFile, avgPercent);
+            createAvgPercentOfCutedFile(singleCutFile, frames);
+            createGifFile(singleCutFile);
 
-            File lastGif = new GifUtil().create(singleCutFile, Settings.getImgExtensionForSpliting());
-            EngineSplitAnalyze.setLastGif(lastGif);
+            removeTmpFiles(frames, singleCutFile.getParentFile(), folderForSplitedFile);
+            setLastInfo(ss);
 
-            removeUnnecessaryFrames(frames);
-
-            if (Settings.isUseRamDisk()) {
-                FilesUtil.moveFilesOnlyFromFolderToFolder(singleCutFile.getParentFile(), folderForSplitedFile);
-            }
-
-            EngineSplitAnalyze.setSs(ss);
-            EngineSplitAnalyze.samplesCountPlusOne();
             ss += Settings.getSampleLengthInSec();
-
         }
     }
 
-    private File createFolderForSplitedFile(File srcVideo, File baseOfSamplesFolder) {
+    private void removeTmpFiles(File srcVideoTmp) {
+        srcVideoTmp.delete();
+        if (Settings.isUseRamDisk()) {
+            FilesUtil.deleteFolderWithFiles(srcVideoTmp.getParentFile());
+        }
+    }
+
+    private void finalization(File srcVideo) {
+        EngineSplitAnalyze.resetStatusValues();
+        if (!EngineSplitAnalyze.isCancelSpliting()) {
+            new CompleteAndQueueListsImpl().moveToCompleteList(srcVideo);
+        }
+        EngineSplitAnalyze.setCancelSpliting(false);
+    }
+
+    private File createFolderForSplitedFile(File srcVideo) {
         String nameWithoutExtension = FilesUtil.getFileNameWithoutExtension(srcVideo);
         String folderName = StringUtil.getWithAllowedSymbols(nameWithoutExtension);
 
-        File folder = new File(baseOfSamplesFolder + File.separator + folderName);
+        File folder = new File(Settings.getBaseOfSamplesFolder() + File.separator + folderName);
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -113,6 +108,29 @@ class VideoFile {
             }
         }
         return false;
+    }
+
+    private void createAvgPercentOfCutedFile(File singleCutFile, ArrayList<File> frames) {
+        int avgPercent = new Analyze().getAvgPercent(frames, Settings.getResolutionForGifAndAnalyzing());
+        writeAvgPercentInTxt(singleCutFile, avgPercent);
+    }
+
+    private void createGifFile(File singleCutFile) {
+        File gifFile = new GifUtil().create(singleCutFile, Settings.getImgExtensionForSpliting());
+        EngineSplitAnalyze.setLastGif(gifFile);
+    }
+
+    private void removeTmpFiles(ArrayList<File> frames, File parentFile, File folderForSplitedFile) {
+        removeUnnecessaryFrames(frames);
+
+        if (Settings.isUseRamDisk()) {
+            FilesUtil.moveFilesOnlyFromFolderToFolder(parentFile, folderForSplitedFile);
+        }
+    }
+
+    private void setLastInfo(int ss) {
+        EngineSplitAnalyze.setSs(ss);
+        EngineSplitAnalyze.samplesCountPlusOne();
     }
 
 }

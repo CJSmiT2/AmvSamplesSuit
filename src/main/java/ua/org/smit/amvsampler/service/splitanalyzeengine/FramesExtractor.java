@@ -20,16 +20,12 @@ import ua.org.smit.amvsampler.util.FilesUtil;
  */
 class FramesExtractor {
 
-    private File srcVideo;
-    private File folderForSplitedFile;
-    private int ss;
-    private int sampleLengthInSec;
     private ArrayList<File> frames;
     private File singleCutFile;
 
     private static final Logger log = LogManager.getLogger(FramesExtractor.class);
 
-    boolean execute() {
+    boolean extract(File srcVideo, File folderForSplitedFile, int ss, int sampleLengthInSec) {
 
         if (Settings.isUseRamDisk()) {
             singleCutFile = new CutFileUtil().create(
@@ -64,22 +60,6 @@ class FramesExtractor {
 
     File getSingleCutFile() {
         return singleCutFile;
-    }
-
-    void setSrcVideo(File srcVideo) {
-        this.srcVideo = srcVideo;
-    }
-
-    void setFolderForSpletedFiles(File folderForSplitedFile) {
-        this.folderForSplitedFile = folderForSplitedFile;
-    }
-
-    void setSs(int ss) {
-        this.ss = ss;
-    }
-
-    void setSampleLength(int sampleLengthInSec) {
-        this.sampleLengthInSec = sampleLengthInSec;
     }
 
 }

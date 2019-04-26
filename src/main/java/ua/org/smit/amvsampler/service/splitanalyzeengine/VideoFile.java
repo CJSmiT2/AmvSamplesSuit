@@ -1,7 +1,11 @@
 package ua.org.smit.amvsampler.service.splitanalyzeengine;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import ua.org.smit.amvsampler.service.CompleteAndQueueListsImpl;
@@ -18,7 +22,8 @@ class VideoFile {
 
     void createSeparateFilesAndAnalyzeIt(File srcVideo) {
         long time = System.currentTimeMillis();
-        log.info("Start cut and analyze: " + srcVideo);
+        log.info("--------------------------------------------------------------"
+                + "\n=== Start cut and analyze: " + srcVideo);
 
         File srcVideoTmp = TmpFile.copy(srcVideo);
 
@@ -54,7 +59,8 @@ class VideoFile {
             ArrayList<File> frames = framesExtractor.getFrames();
 
             createAvgPercentOfCutedFile(singleCutFile, frames);
-            createGifFile(singleCutFile);
+            File gifFile = new GifUtil().create(singleCutFile, Settings.getImgExtensionForSpliting());
+            setGifToRam(gifFile);
 
             removeTmpFiles(frames, singleCutFile.getParentFile(), folderForSplitedFile);
             setLastInfo(ss);
@@ -64,6 +70,7 @@ class VideoFile {
     }
 
     private void removeTmpFiles(File srcVideoTmp) {
+        log.debug("Remove tmp files.");
         srcVideoTmp.delete();
         if (Settings.isUseRamDisk()) {
             FilesUtil.deleteFolderWithFiles(srcVideoTmp.getParentFile());
@@ -79,6 +86,7 @@ class VideoFile {
     }
 
     private File createFolderForSplitedFile(File srcVideo) {
+        log.debug("Creating folder for splited file.");
         String nameWithoutExtension = FilesUtil.getFileNameWithoutExtension(srcVideo);
         String folderName = StringUtil.getWithAllowedSymbols(nameWithoutExtension);
 
@@ -91,6 +99,7 @@ class VideoFile {
 
     private void writeAvgPercentInTxt(File singleCutFile, int avgPercent) {
         File fileWithAvgPercent = new File(singleCutFile.getParentFile() + File.separator + avgPercent + "-" + Settings.AVG_PERCENT_FILE_NAME);
+        log.debug("Write avg percent. " + avgPercent +"% File - " + fileWithAvgPercent);
         TextOnFile.addTextInFile(fileWithAvgPercent, String.valueOf(avgPercent));
     }
 
@@ -115,14 +124,27 @@ class VideoFile {
         writeAvgPercentInTxt(singleCutFile, avgPercent);
     }
 
-    private void createGifFile(File singleCutFile) {
-        File gifFile = new GifUtil().create(singleCutFile, Settings.getImgExtensionForSpliting());
-        EngineSplitAnalyze.setLastGif(gifFile);
+    private void setGifToRam(File gifFile) {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(gifFile);
+            byte[] fileBytes = IOUtils.toByteArray(inputStream);
+            EngineSplitAnalyze.setLastGif(fileBytes);
+        } catch (FileNotFoundException ex) {
+            log.error(ex);
+        } catch (IOException ex) {
+            log.error(ex);
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException ex) {
+                log.error(ex);
+            }
+        }
     }
 
     private void removeTmpFiles(ArrayList<File> frames, File parentFile, File folderForSplitedFile) {
         removeUnnecessaryFrames(frames);
-
         if (Settings.isUseRamDisk()) {
             FilesUtil.moveFilesOnlyFromFolderToFolder(parentFile, folderForSplitedFile);
         }

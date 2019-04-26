@@ -52,7 +52,7 @@
                         </div>
                         <div class="col-sm-2">
                             <c:if test="${lastTitleGroup != null}">
-                                <a href="process_selected?selected_action=add_folder_to_titles_group&folderName=${folderName}&title_group=${lastTitleGroup}" class="btn btn-default btn-xs">Add in Last Titles Group</a>
+                                <a href="process_selected?selected_action=add_folder_to_titles_group&folderName=${folderName}&title_group=${lastTitleGroup}" class="btn btn-default btn-xs">Add in Last Titles Group '${lastTitleGroup}'</a>
                             </c:if>
                         </div>
                     </div>

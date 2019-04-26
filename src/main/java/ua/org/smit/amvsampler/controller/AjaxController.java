@@ -5,12 +5,12 @@
  */
 package ua.org.smit.amvsampler.controller;
 
+import java.util.UUID;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ua.org.smit.amvsampler.service.encodersamples.ExportEncodeSamplesQueue;
 import ua.org.smit.amvsampler.service.splitanalyzeengine.EngineSplitAnalyze;
-import ua.org.smit.amvsampler.util.Base64Util;
 
 /**
  *
@@ -27,7 +27,7 @@ public class AjaxController {
                     + "fileName=" + EngineSplitAnalyze.getCurrentVideoFile().getName() + "&"
                     + "samplesCount=" + EngineSplitAnalyze.getSamplesCount() + "&"
                     + "ss=" + EngineSplitAnalyze.getSs() + "&"
-                    + "lastGifPath=" + new Base64Util().encode(EngineSplitAnalyze.getLastGif().getAbsolutePath());
+                    + "lastGifPath=" + UUID.randomUUID().toString(); // kostil for cache
         }
         return "inProgress=false";
     }

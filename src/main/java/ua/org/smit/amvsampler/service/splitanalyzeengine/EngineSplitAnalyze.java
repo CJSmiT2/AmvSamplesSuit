@@ -16,7 +16,7 @@ public class EngineSplitAnalyze {
     private static EngineSplitAnalyze INSTANCE;
     private static boolean inProgress;
     private static File currentVideoFile;
-    private static File lastGif;
+    private static byte[] lastGif;
     private static int samplesCount;
     private static int ss;
 
@@ -70,11 +70,11 @@ public class EngineSplitAnalyze {
         EngineSplitAnalyze.currentVideoFile = currentVideoFile;
     }
 
-    public synchronized static File getLastGif() {
+    public synchronized static byte[] getLastGif() {
         return lastGif;
     }
 
-    public synchronized static void setLastGif(File lastGif) {
+    public synchronized static void setLastGif(byte[] lastGif) {
         EngineSplitAnalyze.lastGif = lastGif;
     }
 

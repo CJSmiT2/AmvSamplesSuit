@@ -23,7 +23,7 @@ public class GroupsImpl implements GroupsInterface {
     public void createGroup(String groupName, GroupType type) {
         if (type == GroupType.TITLES) {
             GroupsService.createGroupForTitles(groupName);
-        } else if (type == GroupType.SAMPLES) {
+        } else if (type == GroupType.TAGS) {
             GroupsService.createGroupForSamples(groupName);
         }
     }
@@ -33,7 +33,7 @@ public class GroupsImpl implements GroupsInterface {
         log.info("Add to group '" + groupName + "', type='" + type + "', folderOrSample = '" + folderOrSample + "'");
         if (type == GroupType.TITLES) {
             GroupsService.addInGroupForTitles(groupName, folderOrSample);
-        } else if (type == GroupType.SAMPLES) {
+        } else if (type == GroupType.TAGS) {
             GroupsService.addInGroupForSamples(groupName, folderOrSample);
         }
     }
@@ -42,7 +42,7 @@ public class GroupsImpl implements GroupsInterface {
     public boolean isExistInGroup(String groupName, String folderOrSample, GroupType type) {
         if (type == GroupType.TITLES) {
             return GroupsService.isExistInTitlesGroup(groupName, folderOrSample);
-        } else if (type == GroupType.SAMPLES) {
+        } else if (type == GroupType.TAGS) {
             return GroupsService.isExistInSamplesGroup(groupName, folderOrSample);
         }
         return false;
@@ -132,5 +132,19 @@ public class GroupsImpl implements GroupsInterface {
     public ArrayList<File> getTitlesFromSamplesGroup(String groupName) {
         return GroupsService.getTitlesFromSamplesGroup(groupName);
     }
-
+    
+    @Override
+    public boolean isExistInAnyTagGroup(String sampleInput) {
+        log.debug("Check in tag group: " + sampleInput);
+        for (String sample : getFromAllGroups(GroupType.TAGS)){
+            log.debug("\nneed: " + sampleInput + "\ncurr: " + sample);
+            if (sample.equals(sampleInput)){
+                log.debug("exist");
+                return true;
+            }
+        }
+        log.debug("NOT EXIST");
+        return false;
+    }
+    
 }

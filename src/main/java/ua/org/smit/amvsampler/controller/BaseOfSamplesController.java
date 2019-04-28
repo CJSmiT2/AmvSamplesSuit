@@ -81,7 +81,7 @@ public class BaseOfSamplesController {
         model.addAttribute("messages", messagesService.getMessagesAndClear());
         model.addAttribute("base64", new Base64Util());
         model.addAttribute("titlesGroups", groups.getGroups(GroupType.TITLES));
-        model.addAttribute("samplesGroups", groups.getGroups(GroupType.SAMPLES));
+        model.addAttribute("samplesGroups", groups.getGroups(GroupType.TAGS));
 
         model.addAttribute("lastTitleGroup", CookieUtil.read("lastTitleGroup", request));
 

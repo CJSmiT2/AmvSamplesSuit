@@ -50,7 +50,7 @@
                                 <c:if test="${groupType == 'titles'}">
                                     <a href="view_group?groupType=${groupType}&groupName=${group}">${group}</a>
                                 </c:if>
-                                <c:if test="${groupType == 'samples'}">
+                                <c:if test="${groupType == 'tags'}">
                                     ${group}
                                 </c:if>
                             </td>

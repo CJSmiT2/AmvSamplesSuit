@@ -43,7 +43,7 @@ public class GroupsController {
     private GroupsInterface groups;
 
     private final String titlesType = GroupType.TITLES.toString().toLowerCase();
-    private final String samplesType = GroupType.SAMPLES.toString().toLowerCase();
+    private final String tagsType = GroupType.TAGS.toString().toLowerCase();
 
     @RequestMapping(value = {"/view_group"}, method = RequestMethod.GET)
     public String baseOfSamplesNotSorted(
@@ -74,7 +74,7 @@ public class GroupsController {
         if (groupType.equals(titlesType)) {
             ArrayList<File> foldersWithSplitedFiles = groups.getTitles(groupName);
             samples = completeSamples.getSamples(foldersWithSplitedFiles);
-        } else if (groupType.equals(samplesType)) {
+        } else if (groupType.equals(tagsType)) {
             ArrayList<String> samplesSsPath = groups.getSamples(groupName);
             samples = completeSamples.getSamplesByPaths(samplesSsPath);
         }
@@ -97,8 +97,8 @@ public class GroupsController {
 
         if (groupType.equalsIgnoreCase(titlesType)) {
             model.addAttribute("groups", groups.getGroups(GroupType.TITLES));
-        } else if (groupType.equalsIgnoreCase(samplesType)) {
-            model.addAttribute("groups", groups.getGroups(GroupType.SAMPLES));
+        } else if (groupType.equalsIgnoreCase(tagsType)) {
+            model.addAttribute("groups", groups.getGroups(GroupType.TAGS));
         }
 
         model.addAttribute("groupType", groupType);
@@ -117,8 +117,8 @@ public class GroupsController {
         if (groupType.equalsIgnoreCase(titlesType)) {
             groups.createGroup(groupName, GroupType.TITLES);
 
-        } else if (groupType.equalsIgnoreCase(samplesType)) {
-            groups.createGroup(groupName, GroupType.SAMPLES);
+        } else if (groupType.equalsIgnoreCase(tagsType)) {
+            groups.createGroup(groupName, GroupType.TAGS);
         }
 
         return "redirect:groups?groupType=" + groupType;
@@ -148,8 +148,8 @@ public class GroupsController {
         if (groupType.equalsIgnoreCase(titlesType)) {
             groups.deleteGroup(groupName, GroupType.TITLES);
             messagesService.add(Type.info, "Group '" + groupName + "' has deleted!");
-        } else if (groupType.equalsIgnoreCase(samplesType)) {
-            groups.deleteGroup(groupName, GroupType.SAMPLES);
+        } else if (groupType.equalsIgnoreCase(tagsType)) {
+            groups.deleteGroup(groupName, GroupType.TAGS);
             messagesService.add(Type.info, "Group '" + groupName + "' has deleted!");
         }
 
@@ -169,8 +169,8 @@ public class GroupsController {
 
         if (groupType.equalsIgnoreCase(titlesType)) {
             model.addAttribute("groups", groups.getGroups(GroupType.TITLES));
-        } else if (groupType.equalsIgnoreCase(samplesType)) {
-            model.addAttribute("groups", groups.getGroups(GroupType.SAMPLES));
+        } else if (groupType.equalsIgnoreCase(tagsType)) {
+            model.addAttribute("groups", groups.getGroups(GroupType.TAGS));
         }
 
         return "add_in_group_form";

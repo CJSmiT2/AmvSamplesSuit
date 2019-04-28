@@ -45,10 +45,11 @@
                         <a href="/groups?groupType=titles">Groups by titles</a>
                     </li>
                     <li>
-                        <a href="/groups?groupType=samples">Groups by samples</a>
+                        <a href="/groups?groupType=tags">Groups by tags</a>
                     </li>
                 </ul>
             </li>
+            <li><a href="/view_sample_without_tag">Samples without tags</a></li>
             <li><a href="/settings">Settings</a></li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">

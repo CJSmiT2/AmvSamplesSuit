@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
+import ua.org.smit.amvsampler.service.settings.Settings;
 
 /**
  *
@@ -61,15 +62,6 @@ public class CompleteSamplesImpl implements CompleteSamplesInterface {
         return CompleteSamplesService.readLimits(folderName);
     }
 
-//    @Override
-//    public void moveToExportFolder(String folderName, HttpServletRequest request) {
-//        CompleteSamplesService.moveToExportFolder(folderName, request);
-//    }
-//
-//    @Override
-//    public void moveToExportFolder(ArrayList<File> folders, HttpServletRequest request) {
-//        CompleteSamplesService.moveToExportFolder(folders, request);
-//    }
     @Override
     public int deleteSelectedSamples(ArrayList<File> foldersFromGroup, HttpServletRequest request) {
         return CompleteSamplesService.deleteSelectedSamples(foldersFromGroup, request);
@@ -97,6 +89,24 @@ public class CompleteSamplesImpl implements CompleteSamplesInterface {
         } catch (FileNotFoundException ex) {
             throw new RuntimeException("Sample not found! Path: " + folderSs + "\n" + ex);
         }
+    }
+
+    @Override
+    public ArrayList<Sample> getAllSamples() {
+        ArrayList<Sample> samples = new ArrayList();
+        for (File titleFolder : getFoldersWithSplitedFiles()){
+            ArrayList<File> dd = new ArrayList();
+            dd.add(titleFolder);
+            ArrayList<Sample> oo = getSamples(dd);
+            samples.addAll(oo);
+        }
+        return samples;
+    }
+
+    @Override
+    public Sample getSample(String titleFolder, int ss) {
+        File folderSs = new File(Settings.getBaseOfSamplesFolder() + File.separator + titleFolder + File.separator + ss);
+        return getSample(folderSs);
     }
 
 }

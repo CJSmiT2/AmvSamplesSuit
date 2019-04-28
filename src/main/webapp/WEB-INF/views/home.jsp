@@ -46,7 +46,7 @@
                     <h4>Groups by samples</h4>
                     <div class="list-group">
                         <c:forEach var="group" items="${groupsInfoSamples}">
-                            <a href="view_samples_in_group?groupType=samples&groupName=${group.getName()}" class="list-group-item">
+                            <a href="view_samples_in_group?groupType=tags&groupName=${group.getName()}" class="list-group-item">
                                 ${group.getName()} <span class="badge">${group.getGroupSize()}</span>
                             </a>
                         </c:forEach>

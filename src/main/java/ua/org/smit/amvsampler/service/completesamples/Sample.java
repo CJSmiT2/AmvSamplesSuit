@@ -18,6 +18,7 @@ public class Sample {
     private File mp4;
     private int avgPercent;
     private int ss;
+    private String title;
 
     public File getParentFolder() {
         return parentFolder;
@@ -29,6 +30,10 @@ public class Sample {
 
     public File getSsFolder() {
         return new File(parentFolder + File.separator + ss);
+    }
+
+    public String getSsFolderString() {
+        return parentFolder + File.separator + ss;
     }
 
     public File getGif() {
@@ -63,6 +68,14 @@ public class Sample {
         this.ss = ss;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getTime() {
         int h = ss / 3600;
         int m = ss % 3600 / 60;
@@ -87,7 +100,7 @@ public class Sample {
 
     @Override
     public String toString() {
-        return "Sample{" + "parentFolder=" + parentFolder + ", gif=" + gif + ", mp4=" + mp4 + ", avgPercent=" + avgPercent + ", ss=" + ss + '}';
+        return "Sample{" + "parentFolder=" + parentFolder + ", gif=" + gif + ", mp4=" + mp4 + ", avgPercent=" + avgPercent + ", ss=" + ss + ", title=" + title + '}';
     }
 
 }

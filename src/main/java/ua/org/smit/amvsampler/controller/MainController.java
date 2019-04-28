@@ -51,7 +51,7 @@ public class MainController {
 
         model.addAttribute("samplesInGroupsSize", groups.getSamplesFromAllGroups().size());
         model.addAttribute("groupsInfoTitles", groups.getGroupsInfo(GroupType.TITLES));
-        model.addAttribute("groupsInfoSamples", groups.getGroupsInfo(GroupType.SAMPLES));
+        model.addAttribute("groupsInfoSamples", groups.getGroupsInfo(GroupType.TAGS));
         model.addAttribute("messages", messagesService.getMessagesAndClear());
 
         return "home";

@@ -67,6 +67,7 @@ public class SamplesInFolder {
         sample.setGif(getByExtension(files, "gif"));
         sample.setMp4(getByExtension(files, "mp4"));
         sample.setAvgPercent(readAvgPercet(files));
+        sample.setTitle(folderSs.getParentFile().getName());
         return sample;
     }
 

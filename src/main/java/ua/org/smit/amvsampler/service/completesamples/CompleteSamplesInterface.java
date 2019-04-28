@@ -42,4 +42,8 @@ public interface CompleteSamplesInterface {
     ArrayList<Sample> get(String folderName);
 
     Sample getSample(File folderSs);
+    
+    Sample getSample(String titleFolder, int ss);
+    
+    ArrayList<Sample> getAllSamples();
 }

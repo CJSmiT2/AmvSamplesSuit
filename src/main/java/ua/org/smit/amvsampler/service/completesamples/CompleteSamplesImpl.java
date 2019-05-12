@@ -8,6 +8,8 @@ package ua.org.smit.amvsampler.service.completesamples;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import ua.org.smit.amvsampler.service.settings.Settings;
 
@@ -95,10 +97,10 @@ public class CompleteSamplesImpl implements CompleteSamplesInterface {
     public ArrayList<Sample> getAllSamples() {
         ArrayList<Sample> samples = new ArrayList();
         for (File titleFolder : getFoldersWithSplitedFiles()){
-            ArrayList<File> dd = new ArrayList();
-            dd.add(titleFolder);
-            ArrayList<Sample> oo = getSamples(dd);
-            samples.addAll(oo);
+            ArrayList<File> folders = new ArrayList();
+            folders.add(titleFolder);
+            ArrayList<Sample> samplesFromFolder = getSamples(folders);
+            samples.addAll(samplesFromFolder);
         }
         return samples;
     }
@@ -107,6 +109,18 @@ public class CompleteSamplesImpl implements CompleteSamplesInterface {
     public Sample getSample(String titleFolder, int ss) {
         File folderSs = new File(Settings.getBaseOfSamplesFolder() + File.separator + titleFolder + File.separator + ss);
         return getSample(folderSs);
+    }
+
+    @Override
+    public List<Sample> getNotRecompressedSamples() {
+        return getAllSamples().stream()
+                .filter(sample -> sample.isReCompressed() == false)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void markSampleAsRecompressed(Sample sample) {
+        SamplesInFolder.createRecompressedMarker(sample.getSsFolder());
     }
 
 }

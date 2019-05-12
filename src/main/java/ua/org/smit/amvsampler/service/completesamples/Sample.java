@@ -19,6 +19,7 @@ public class Sample {
     private int avgPercent;
     private int ss;
     private String title;
+    private boolean reCompressed;
 
     public File getParentFolder() {
         return parentFolder;
@@ -76,6 +77,14 @@ public class Sample {
         this.title = title;
     }
 
+    public boolean isReCompressed() {
+        return reCompressed;
+    }
+
+    public void setReCompressed(boolean reCompressed) {
+        this.reCompressed = reCompressed;
+    }
+
     public String getTime() {
         int h = ss / 3600;
         int m = ss % 3600 / 60;
@@ -100,7 +109,7 @@ public class Sample {
 
     @Override
     public String toString() {
-        return "Sample{" + "parentFolder=" + parentFolder + ", gif=" + gif + ", mp4=" + mp4 + ", avgPercent=" + avgPercent + ", ss=" + ss + ", title=" + title + '}';
+        return "Sample{" + "parentFolder=" + parentFolder + ", gif=" + gif + ", mp4=" + mp4 + ", avgPercent=" + avgPercent + ", ss=" + ss + ", title=" + title + ", reCompressed=" + reCompressed + '}';
     }
 
 }

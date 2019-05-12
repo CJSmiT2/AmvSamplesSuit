@@ -22,6 +22,7 @@ import ua.org.smit.amvsampler.util.TextOnFile;
 public class SamplesInFolder {
 
     private static final Logger log = LogManager.getLogger(SamplesInFolder.class);
+    private static final String RECOMPRESSED_MARKER_FILE_NAME = "recompressed.txt";
 
     static ArrayList<Sample> get(String folderName) {
         log.info("Get samples from: " + folderName);
@@ -68,6 +69,7 @@ public class SamplesInFolder {
         sample.setMp4(getByExtension(files, "mp4"));
         sample.setAvgPercent(readAvgPercet(files));
         sample.setTitle(folderSs.getParentFile().getName());
+        sample.setReCompressed(isRecompressedMarkerExist(folderSs));
         return sample;
     }
 
@@ -130,5 +132,13 @@ public class SamplesInFolder {
             }
         }
         throw new RuntimeException("Not found sample by ss=" + ss);
+    }
+
+    private static boolean isRecompressedMarkerExist(File folderSs) {
+        return new File(folderSs + File.separator + RECOMPRESSED_MARKER_FILE_NAME).exists();
+    }
+    
+    public static void createRecompressedMarker(File folderSs){
+        FilesUtil.makeEmptyFile(new File(folderSs + File.separator + RECOMPRESSED_MARKER_FILE_NAME));
     }
 }

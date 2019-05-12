@@ -7,6 +7,7 @@ package ua.org.smit.amvsampler.service.completesamples;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -46,4 +47,8 @@ public interface CompleteSamplesInterface {
     Sample getSample(String titleFolder, int ss);
     
     ArrayList<Sample> getAllSamples();
+    
+    List<Sample> getNotRecompressedSamples();
+    
+    void markSampleAsRecompressed(Sample sample);
 }

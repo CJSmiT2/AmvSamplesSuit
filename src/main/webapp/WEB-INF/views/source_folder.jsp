@@ -60,7 +60,5 @@
             </form>
         </div>
         
-        <script src="${pageContext.request.contextPath}/resources/js/export_queue_info_ajax.js"></script>
-        <jsp:include page="export_samples_info.jsp" />
    </body>
 </html>

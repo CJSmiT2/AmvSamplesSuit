@@ -233,5 +233,14 @@ public class FilesUtil {
             file.delete();
         }
     }
+    
+    public static synchronized File findByExtension(ArrayList<File> files, String extension) throws FileNotFoundException {
+        for (File file : files) {
+            if (FilesUtil.getFileExtension(file).equalsIgnoreCase(extension)) {
+                return file;
+            }
+        }
+        throw new FileNotFoundException();
+    }
 
 }

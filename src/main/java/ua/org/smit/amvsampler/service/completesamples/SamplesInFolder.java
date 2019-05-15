@@ -65,25 +65,18 @@ public class SamplesInFolder {
         Sample sample = new Sample();
         sample.setParentFolder(folderSs.getParentFile());
         sample.setSs(Integer.valueOf(folderSs.getName()));
-        sample.setGif(getByExtension(files, "gif"));
-        sample.setMp4(getByExtension(files, "mp4"));
+        sample.setGif(FilesUtil.findByExtension(files, "gif"));
+        sample.setMp4(FilesUtil.findByExtension(files, "mp4"));
         sample.setAvgPercent(readAvgPercet(files));
         sample.setTitle(folderSs.getParentFile().getName());
         sample.setReCompressed(isRecompressedMarkerExist(folderSs));
         return sample;
     }
 
-    private static File getByExtension(ArrayList<File> files, String extension) throws FileNotFoundException {
-        for (File file : files) {
-            if (FilesUtil.getFileExtension(file).equalsIgnoreCase(extension)) {
-                return file;
-            }
-        }
-        throw new FileNotFoundException();
-    }
+    
 
     private static int readAvgPercet(ArrayList<File> files) throws FileNotFoundException {
-        File percentFile = getByExtension(files, "txt");
+        File percentFile = FilesUtil.findByExtension(files, "txt");
         if (percentFile.getName().contains(Settings.AVG_PERCENT_FILE_NAME)) {
             String percentString = TextOnFile.readByLine(percentFile).get(0);
             return Integer.valueOf(percentString);

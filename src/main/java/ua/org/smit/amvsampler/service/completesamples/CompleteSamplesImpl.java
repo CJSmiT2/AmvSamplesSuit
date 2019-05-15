@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import ua.org.smit.amvsampler.service.settings.Settings;
@@ -121,6 +123,19 @@ public class CompleteSamplesImpl implements CompleteSamplesInterface {
     @Override
     public void markSampleAsRecompressed(Sample sample) {
         SamplesInFolder.createRecompressedMarker(sample.getSsFolder());
+    }
+
+    @Override
+    public List<Sample> getSamplesByMP4(List<File> mp4Paths) {
+        List<Sample> samples = new ArrayList();
+        for (File mp4Path : mp4Paths){
+            try {
+                samples.add(CompleteSamplesService.getSampleByMp4Path(mp4Path));
+            } catch (FileNotFoundException ex) {
+                System.err.println("Cannot found sample by mp4: " + mp4Path);
+            }
+        }
+        return samples;
     }
 
 }

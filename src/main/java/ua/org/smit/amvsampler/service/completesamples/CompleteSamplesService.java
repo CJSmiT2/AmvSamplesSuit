@@ -224,4 +224,8 @@ class CompleteSamplesService {
         return files;
     }
 
+    static Sample getSampleByMp4Path(File mp4Path) throws FileNotFoundException {
+        return SamplesInFolder.getSample(mp4Path.getParentFile());
+    }
+
 }

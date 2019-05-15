@@ -20,6 +20,7 @@ import ua.org.smit.amvsampler.messages.Type;
 import ua.org.smit.amvsampler.service.completesamples.CompleteSamplesInterface;
 import ua.org.smit.amvsampler.service.completesamples.Limits;
 import ua.org.smit.amvsampler.service.completesamples.Sample;
+import ua.org.smit.amvsampler.service.exportsamples.ExportSamplesService;
 import ua.org.smit.amvsampler.service.groups.GroupType;
 import ua.org.smit.amvsampler.service.groups.GroupsInterface;
 import ua.org.smit.amvsampler.service.settings.Settings;
@@ -86,6 +87,20 @@ public class BaseOfSamplesController {
         model.addAttribute("lastTitleGroup", CookieUtil.read("lastTitleGroup", request));
 
         return "samples_folder";
+    }
+
+    @RequestMapping(value = {"/samples_export_folder"}, method = RequestMethod.GET)
+    public String samplesExportFolder(
+            Model model,
+            HttpServletRequest request) {
+        Access.check(request, Settings.isLocalhostOnly());
+
+        model.addAttribute("messages", messagesService.getMessagesAndClear());
+        model.addAttribute("base64", new Base64Util());
+        model.addAttribute("samplesExport", new ExportSamplesService().
+                getExportSamples(Settings.getExportFolder()));
+
+        return "samples_export_folder";
     }
 
     @RequestMapping(value = {"set_limits"})

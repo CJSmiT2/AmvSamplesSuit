@@ -7,6 +7,7 @@ package ua.org.smit.amvsampler.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ import ua.org.smit.amvsampler.messages.MessagesService;
 import ua.org.smit.amvsampler.messages.Type;
 import ua.org.smit.amvsampler.service.completesamples.CompleteSamplesInterface;
 import ua.org.smit.amvsampler.service.completesamples.Sample;
-import ua.org.smit.amvsampler.service.encodersamples.ExportEncodeSamplesQueue;
+import ua.org.smit.amvsampler.service.exportsamples.ExportSamplesService;
 import ua.org.smit.amvsampler.service.groups.GroupType;
 import ua.org.smit.amvsampler.service.groups.GroupsInterface;
 import ua.org.smit.amvsampler.service.settings.Settings;
@@ -41,6 +42,8 @@ public class GroupsController {
     private CompleteSamplesInterface completeSamples;
     @Autowired
     private GroupsInterface groups;
+    @Autowired
+    private ExportSamplesService exportSamplesService;
 
     private final String titlesType = GroupType.TITLES.toString().toLowerCase();
     private final String tagsType = GroupType.TAGS.toString().toLowerCase();
@@ -184,10 +187,10 @@ public class GroupsController {
             @RequestParam(value = "selected_action") String selectedAction) {
 
         if (selectedAction.equalsIgnoreCase("export_selected")) {
-            ExportEncodeSamplesQueue.instance();
-            ArrayList<File> titles = SelectedSamples.fingFromRequestAsFiles(request);
-            ExportEncodeSamplesQueue.samples.addAll(titles);
-            messagesService.add(Type.success, titles.size() + " samples added to export queue!");
+            ArrayList<File> samplesMp4Paths = SelectedSamples.fingFromRequestAsFiles(request);
+            List<Sample> samplesExport = completeSamples.getSamplesByMP4(samplesMp4Paths);
+            exportSamplesService.export(samplesExport, Settings.getExportFolder());
+            messagesService.add(Type.success, samplesExport.size() + " samples added to export queue!");
 
         } else if (selectedAction.equalsIgnoreCase("delete_selected")) {
             ArrayList<File> titles = groups.getTitlesFromSamplesGroup(groupName);

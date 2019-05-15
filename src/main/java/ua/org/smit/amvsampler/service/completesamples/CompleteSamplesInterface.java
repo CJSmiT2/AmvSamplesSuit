@@ -51,4 +51,6 @@ public interface CompleteSamplesInterface {
     List<Sample> getNotRecompressedSamples();
     
     void markSampleAsRecompressed(Sample sample);
+    
+    List<Sample> getSamplesByMP4(List<File> mp4Paths);
 }

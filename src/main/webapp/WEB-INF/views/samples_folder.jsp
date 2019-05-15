@@ -63,14 +63,11 @@
         </div>
             
         <!-- manual -->
-        <script src="${pageContext.request.contextPath}/resources/js/amvsamples_suit_scripts.js"></script>
         <script>
             var timeRageMin = secondsToHms(${limits.getSsStart()});
             $("#rageMin").text(timeRageMin);
             var timeRageMax = secondsToHms(${limits.getSsEnd()});
             $("#rageMax").text(timeRageMax);
         </script>
-        <script src="${pageContext.request.contextPath}/resources/js/export_queue_info_ajax.js"></script>
-        <jsp:include page="export_samples_info.jsp" />
    </body>
 </html>

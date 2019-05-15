@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.org.smit.amvsampler.messages.MessagesService;
 import ua.org.smit.amvsampler.messages.Type;
+import ua.org.smit.amvsampler.service.OpenExportFolderInWindow;
 import ua.org.smit.amvsampler.service.completesamples.CompleteSamplesInterface;
 import ua.org.smit.amvsampler.service.completesamples.Sample;
 import ua.org.smit.amvsampler.service.exportsamples.ExportSamplesService;
@@ -100,7 +101,7 @@ public class ProcessSelectedSamplesController {
     
     @RequestMapping(value = "/open_export_sample_folder_in_explorer/{sampleFolder}")
     public String openExportSampleFolderInExplorer(@PathVariable String sampleFolder){
-        Console.exec("start " + Settings.getExportFolder() + File.separator + sampleFolder);
+        new OpenExportFolderInWindow(Settings.getExportFolder() + File.separator + sampleFolder);
         return "ok";
     }
 }

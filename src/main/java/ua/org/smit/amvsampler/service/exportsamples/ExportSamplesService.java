@@ -37,7 +37,9 @@ public class ExportSamplesService {
         ArrayList<SampleExport> samples = new ArrayList();
         FilesUtil.getAllFoldersNotRecursive(exportFolder).stream().forEach((sampleFolder) -> {
             try {
-                samples.add(findSample(sampleFolder));
+                SampleExport sample = findSample(sampleFolder);
+                log.info("sample found: " + sample);
+                samples.add(sample);
             } catch (FileNotFoundException ex) {
                 log.error("Cant find samples in folder: '"+ sampleFolder + "' "  + ex);
             }
@@ -48,7 +50,7 @@ public class ExportSamplesService {
     private SampleExport findSample(File sampleFolder) throws FileNotFoundException {
         ArrayList<File> files = FilesUtil.getFiles(sampleFolder);
         SampleExport sampleExport = new SampleExport();
-        sampleExport.setSampleName(sampleFolder);
+        sampleExport.setSampleName(sampleFolder.getName());
         sampleExport.setMp4(FilesUtil.findByExtension(files, "mp4"));
         sampleExport.setGif(FilesUtil.findByExtension(files, "gif"));
         return sampleExport;

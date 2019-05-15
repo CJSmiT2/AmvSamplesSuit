@@ -18,7 +18,7 @@
                 <c:forEach var="sampleExport" items="${samplesExport}">
                     <div class="img-thumbnail">
                         <a onClick="openExportSampleFolderInExplorer('${sampleExport.getSampleName()}')">
-                            <img src="gif?path=${base64.encode(sample.getGif())}">
+                            <img src="gif?path=${base64.encode(sampleExport.getGif())}">
                         </a>
                     </div>
                 </c:forEach>
@@ -33,9 +33,6 @@
                     url: 'open_export_sample_folder_in_explorer/' + sampleFolder,
                     success: function(response){
                         console.log("response " + response);
-                    },
-                    error: function(err){
-                        alert(err);
                     }
                 });
             }

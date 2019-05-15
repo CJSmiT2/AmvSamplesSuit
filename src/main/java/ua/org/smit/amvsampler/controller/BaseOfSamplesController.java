@@ -99,6 +99,7 @@ public class BaseOfSamplesController {
         model.addAttribute("base64", new Base64Util());
         model.addAttribute("samplesExport", new ExportSamplesService().
                 getExportSamples(Settings.getExportFolder()));
+        model.addAttribute("exportFolder", Settings.getExportFolder().getName());
 
         return "samples_export_folder";
     }

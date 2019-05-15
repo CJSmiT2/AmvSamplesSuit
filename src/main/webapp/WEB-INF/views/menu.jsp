@@ -50,6 +50,7 @@
                 </ul>
             </li>
             <li><a href="/view_sample_without_tag">Samples without tags</a></li>
+            <li><a href="/samples_export_folder">Export folder</a></li>
             <li><a href="/settings">Settings</a></li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">

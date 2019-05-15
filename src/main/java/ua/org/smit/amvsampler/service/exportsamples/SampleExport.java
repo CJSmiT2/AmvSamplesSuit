@@ -8,15 +8,15 @@ import java.io.File;
  */
 public class SampleExport {
 
-    private File sampleName;
+    private String sampleName;
     private File mp4;
     private File gif;
 
-    public File getSampleName() {
+    public String getSampleName() {
         return sampleName;
     }
 
-    public void setSampleName(File sampleName) {
+    public void setSampleName(String sampleName) {
         this.sampleName = sampleName;
     }
 
@@ -35,8 +35,6 @@ public class SampleExport {
     public void setGif(File gif) {
         this.gif = gif;
     }
-
-
 
     @Override
     public String toString() {

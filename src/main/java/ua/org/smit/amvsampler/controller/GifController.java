@@ -45,7 +45,6 @@ public class GifController {
         
         path = base64.decode(path);
         File gif = new File(path);
-        System.out.println("path : " + gif);
         if (!gif.exists()) {
             System.err.println("Path not exist! " + gif.getAbsolutePath());
         }

@@ -8,7 +8,12 @@ package ua.org.smit.amvsampler.service.completesamples;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+import ua.org.smit.amvsampler.service.settings.Settings;
 
 /**
  *
@@ -61,15 +66,6 @@ public class CompleteSamplesImpl implements CompleteSamplesInterface {
         return CompleteSamplesService.readLimits(folderName);
     }
 
-//    @Override
-//    public void moveToExportFolder(String folderName, HttpServletRequest request) {
-//        CompleteSamplesService.moveToExportFolder(folderName, request);
-//    }
-//
-//    @Override
-//    public void moveToExportFolder(ArrayList<File> folders, HttpServletRequest request) {
-//        CompleteSamplesService.moveToExportFolder(folders, request);
-//    }
     @Override
     public int deleteSelectedSamples(ArrayList<File> foldersFromGroup, HttpServletRequest request) {
         return CompleteSamplesService.deleteSelectedSamples(foldersFromGroup, request);
@@ -97,6 +93,49 @@ public class CompleteSamplesImpl implements CompleteSamplesInterface {
         } catch (FileNotFoundException ex) {
             throw new RuntimeException("Sample not found! Path: " + folderSs + "\n" + ex);
         }
+    }
+
+    @Override
+    public ArrayList<Sample> getAllSamples() {
+        ArrayList<Sample> samples = new ArrayList();
+        for (File titleFolder : getFoldersWithSplitedFiles()){
+            ArrayList<File> folders = new ArrayList();
+            folders.add(titleFolder);
+            ArrayList<Sample> samplesFromFolder = getSamples(folders);
+            samples.addAll(samplesFromFolder);
+        }
+        return samples;
+    }
+
+    @Override
+    public Sample getSample(String titleFolder, int ss) {
+        File folderSs = new File(Settings.getBaseOfSamplesFolder() + File.separator + titleFolder + File.separator + ss);
+        return getSample(folderSs);
+    }
+
+    @Override
+    public List<Sample> getNotRecompressedSamples() {
+        return getAllSamples().stream()
+                .filter(sample -> sample.isReCompressed() == false)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void markSampleAsRecompressed(Sample sample) {
+        SamplesInFolder.createRecompressedMarker(sample.getSsFolder());
+    }
+
+    @Override
+    public List<Sample> getSamplesByMP4(List<File> mp4Paths) {
+        List<Sample> samples = new ArrayList();
+        for (File mp4Path : mp4Paths){
+            try {
+                samples.add(CompleteSamplesService.getSampleByMp4Path(mp4Path));
+            } catch (FileNotFoundException ex) {
+                System.err.println("Cannot found sample by mp4: " + mp4Path);
+            }
+        }
+        return samples;
     }
 
 }

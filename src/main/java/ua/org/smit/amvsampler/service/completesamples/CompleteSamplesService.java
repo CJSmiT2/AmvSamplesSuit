@@ -126,26 +126,6 @@ class CompleteSamplesService {
         return false;
     }
 
-//    static void moveToExportFolder(String folderName, HttpServletRequest request) {
-//        ArrayList<Sample> samples = new ArrayList();
-//        
-//        for (Sample sample : SamplesInFolder.get(folderName)){
-//            String pathInbase64 = new Base64Util().encode(sample.getMp4().toString());
-//            String name = request.getParameter(pathInbase64);
-//            if (name != null){
-//                samples.add(sample);
-//            }
-//        }
-//        
-//        ArrayList<File> samplesFiles = getFilesFromSamples(samples);
-//        encodeAndMove(samplesFiles);
-//    }
-//    
-//    static void moveToExportFolder(ArrayList<File> folders, HttpServletRequest request) {
-//        for (File folder : folders){
-//            moveToExportFolder(folder.getName(), request);
-//        }
-//    }
     static int deleteSelectedSamples(ArrayList<File> foldersFromGroup, HttpServletRequest request) {
         int count = 0;
 
@@ -244,24 +224,8 @@ class CompleteSamplesService {
         return files;
     }
 
-//    private static void encodeAndMove(ArrayList<File> samplesFiles) {
-//        SamplesEncoder samplesEncoder = new SamplesEncoder();
-//        ArrayList<File> encodedSamples = samplesEncoder.encode(samplesFiles, false);
-//
-//        for (File file : encodedSamples){
-//            File dest = new File(Settings.getExportFolder() + File.separator + file.getName());
-//            FilesUtil.copy(file, dest);
-//            file.delete();
-//        }
-//        
-//        if (true){
-//            ArrayList<File> samplesWithoutDublicates = samplesEncoder.encode(samplesFiles, true);
-//
-//            for (File file : samplesWithoutDublicates){
-//                File dest = new File(Settings.getExportFolder() + File.separator + FilesUtil.getFileNameWithoutExtension(file) + "_no_dubl.mp4");
-//                FilesUtil.copy(file, dest);
-//                file.delete();
-//            }
-//        }
-//    }
+    static Sample getSampleByMp4Path(File mp4Path) throws FileNotFoundException {
+        return SamplesInFolder.getSample(mp4Path.getParentFile());
+    }
+
 }

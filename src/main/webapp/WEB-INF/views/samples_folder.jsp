@@ -52,7 +52,7 @@
                         </div>
                         <div class="col-sm-2">
                             <c:if test="${lastTitleGroup != null}">
-                                <a href="process_selected?selected_action=add_folder_to_titles_group&folderName=${folderName}&title_group=${lastTitleGroup}" class="btn btn-default btn-xs">Add in Last Titles Group</a>
+                                <a href="process_selected?selected_action=add_folder_to_titles_group&folderName=${folderName}&title_group=${lastTitleGroup}" class="btn btn-default btn-xs">Add in Last Titles Group '${lastTitleGroup}'</a>
                             </c:if>
                         </div>
                     </div>
@@ -62,15 +62,6 @@
             </div>
         </div>
             
-        <!-- manual -->
         <script src="${pageContext.request.contextPath}/resources/js/amvsamples_suit_scripts.js"></script>
-        <script>
-            var timeRageMin = secondsToHms(${limits.getSsStart()});
-            $("#rageMin").text(timeRageMin);
-            var timeRageMax = secondsToHms(${limits.getSsEnd()});
-            $("#rageMax").text(timeRageMax);
-        </script>
-        <script src="${pageContext.request.contextPath}/resources/js/export_queue_info_ajax.js"></script>
-        <jsp:include page="export_samples_info.jsp" />
    </body>
 </html>

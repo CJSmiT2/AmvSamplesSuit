@@ -20,8 +20,6 @@ public class GifUtil {
     private static final Logger log = LogManager.getLogger(GifUtil.class);
 
     public File create(File singleCutFile, String imgExtensionForSpliting) {
-        log.info("Make gif: " + singleCutFile);
-
         File framesFolder = new File(singleCutFile.getParentFile() + File.separator + "frames");
         String gifFileName = FilesUtil.getFileNameWithoutExtension(singleCutFile) + ".gif";
 

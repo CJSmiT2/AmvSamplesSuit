@@ -18,7 +18,6 @@ import ua.org.smit.amvsampler.service.groups.GroupType;
 import ua.org.smit.amvsampler.service.groups.GroupsInterface;
 import ua.org.smit.amvsampler.service.queuemanager.CuttingFilesQueue;
 import ua.org.smit.amvsampler.service.settings.Settings;
-import ua.org.smit.amvsampler.service.statistics.StatisticsInfoInterface;
 import ua.org.smit.amvsampler.util.Access;
 import ua.org.smit.amvsampler.util.FilesUtil;
 
@@ -37,8 +36,6 @@ public class MainController {
     private GroupsInterface groups;
     @Autowired
     private CompleteAndQueueListsInterface completeAndQueueLists;
-    @Autowired
-    private StatisticsInfoInterface statisticsInfo;
 
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public String home(
@@ -53,9 +50,8 @@ public class MainController {
         CuttingFilesQueue.instance();
 
         model.addAttribute("samplesInGroupsSize", groups.getSamplesFromAllGroups().size());
-        model.addAttribute("statisticsInfo", statisticsInfo.get());
         model.addAttribute("groupsInfoTitles", groups.getGroupsInfo(GroupType.TITLES));
-        model.addAttribute("groupsInfoSamples", groups.getGroupsInfo(GroupType.SAMPLES));
+        model.addAttribute("groupsInfoSamples", groups.getGroupsInfo(GroupType.TAGS));
         model.addAttribute("messages", messagesService.getMessagesAndClear());
 
         return "home";

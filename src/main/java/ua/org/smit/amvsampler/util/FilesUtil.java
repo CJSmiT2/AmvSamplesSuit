@@ -23,7 +23,7 @@ public class FilesUtil {
 
     private static final Logger log = LogManager.getLogger(FilesUtil.class);
 
-    public static ArrayList<File> getFiles(File folder) {
+    public static synchronized ArrayList<File> getFiles(File folder) {
         ArrayList<File> filesList = new ArrayList();
         if (!isFolderExistChecking(folder)) {
             return filesList;
@@ -40,7 +40,7 @@ public class FilesUtil {
         return filesList;
     }
 
-    public static ArrayList<File> getFolders(File folder) {
+    public static synchronized ArrayList<File> getFolders(File folder) {
         ArrayList<File> foldersList = new ArrayList();
         if (!isFolderExistChecking(folder)) {
             return foldersList;
@@ -57,7 +57,7 @@ public class FilesUtil {
         return foldersList;
     }
 
-    public static void move(File src, File dest) {
+    public static synchronized void move(File src, File dest) {
         log.info("\nmove: " + src + "\n  to: " + dest);
         if (!src.exists()) {
             throw new RuntimeException("Fail to move file. Src file not exist! " + src.getAbsolutePath());
@@ -71,7 +71,7 @@ public class FilesUtil {
         }
     }
 
-    public static void copy(File source, File dest) {
+    public static synchronized void copy(File source, File dest) {
         if (!source.exists()) {
             throw new RuntimeException("Fail to copy file. Src file not exist! " + source.getAbsolutePath());
         }
@@ -123,7 +123,7 @@ public class FilesUtil {
         return file.getName().replaceFirst("[.][^.]+$", "");
     }
 
-    public static void deleteFolderWithFiles(File file) {
+    public static synchronized void deleteFolderWithFiles(File file) {
         for (File childFile : file.listFiles()) {
             if (childFile.isDirectory()) {
                 deleteFolderWithFiles(childFile);
@@ -196,7 +196,7 @@ public class FilesUtil {
         return folders;
     }
 
-    public static void makeEmptyFile(File textFile) {
+    public static synchronized void makeEmptyFile(File textFile) {
 //        removeFile(textFile);
         try {
             textFile.createNewFile();
@@ -205,20 +205,21 @@ public class FilesUtil {
         }
     }
 
-    public static void removeFile(File textFile) {
-        if (textFile.exists()) {
-            textFile.delete();
+    public static synchronized void removeFile(File file) {
+        log.debug("REMOVE: " + file);
+        if (file.exists()) {
+            file.delete();
         }
     }
 
-    private static boolean isFolderExistChecking(File folder) {
+    private static synchronized boolean isFolderExistChecking(File folder) {
         if (!folder.exists() || !folder.isDirectory()) {
             return false;
         }
         return true;
     }
 
-    public static void moveFilesOnlyFromFolderToFolder(File src, File dest) {
+    public static synchronized void moveFilesOnlyFromFolderToFolder(File src, File dest) {
         ArrayList<File> files = FilesUtil.getFiles(src);
         for (File file : files) {
 
@@ -231,6 +232,15 @@ public class FilesUtil {
             FilesUtil.copy(file, new File(destSsFolder + File.separator + file.getName()));
             file.delete();
         }
+    }
+    
+    public static synchronized File findByExtension(ArrayList<File> files, String extension) throws FileNotFoundException {
+        for (File file : files) {
+            if (FilesUtil.getFileExtension(file).equalsIgnoreCase(extension)) {
+                return file;
+            }
+        }
+        throw new FileNotFoundException();
     }
 
 }

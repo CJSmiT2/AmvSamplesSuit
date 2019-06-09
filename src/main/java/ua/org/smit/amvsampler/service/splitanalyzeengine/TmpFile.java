@@ -16,39 +16,49 @@ import ua.org.smit.amvsampler.util.StringUtil;
  *
  * @author smit
  */
-class TmpFiles {
+class TmpFile {
 
-    private static final Logger log = LogManager.getLogger(TmpFiles.class);
+    private static final Logger log = LogManager.getLogger(TmpFile.class);
 
     static File copy(File srcVideo) {
 
-        String extension = FilesUtil.getFileExtension(srcVideo);
-        String oldFileName = FilesUtil.getFileNameWithoutExtension(srcVideo);
-        String fileName = StringUtil.getWithAllowedSymbols(oldFileName) + "." + extension;
-
-        File destFile = null;
-        if (Settings.isUseRamDisk() && srcVideo.length() <= 2000000000) { // 2Gb
-            log.debug("Use RAM disk");
-            destFile = new File(Settings.getRamDisk() + File.separator + fileName);
-        } else {
-            log.debug("Use HDD disk");
-            destFile = new File(Settings.getBaseOfSamplesFolder() + File.separator + fileName);
-        }
+        File destFile = createDestFile(createTmpFileName(srcVideo), srcVideo);
+        copySrcToDest(srcVideo, destFile);
 
         if (!destFile.exists()) {
+            throw new RuntimeException("File not exist! " + destFile);
+        }
+
+        return destFile;
+    }
+
+    private static String createTmpFileName(File srcVideo) {
+        String extension = FilesUtil.getFileExtension(srcVideo);
+        String oldFileName = FilesUtil.getFileNameWithoutExtension(srcVideo);
+        return StringUtil.getWithAllowedSymbols(oldFileName) + "." + extension;
+    }
+
+    private static File createDestFile(String fileName, File srcVideo) {
+        if (Settings.isUseRamDisk() && srcVideo.length() <= 4000000000l) { // 4Gb
+            log.debug("Use RAM disk");
+            return new File(Settings.getRamDisk() + File.separator + fileName);
+        } else {
+            log.debug("Use HDD disk");
+            return new File(Settings.getBaseOfSamplesFolder() + File.separator + fileName);
+        }
+    }
+
+    private static void copySrcToDest(File srcVideo, File destFile) {
+        if (!destFile.exists() || ( srcVideo.length() != destFile.length() )) {
             log.info("Copy:\nsrc = " + srcVideo + "\ntmp = " + destFile);
 
             long time = System.currentTimeMillis();
             FilesUtil.copy(srcVideo, destFile);
 
             log.info("Copy is complete! Time: " + ((System.currentTimeMillis() - time) / 1000) + "sec");
+        } else {
+            log.info("File not copied, because already exist! "  + destFile);
         }
-
-        if (!destFile.exists()) {
-            throw new RuntimeException(destFile + " NOT EXIST!");
-        }
-
-        return destFile;
     }
 
 }

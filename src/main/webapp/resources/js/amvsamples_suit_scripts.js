@@ -36,7 +36,7 @@ function setCutInfo(params){
         $("#ss").text(secondsToHms(ss));
         $("#samplesCount").empty();
         $("#samplesCount").text(samplesCount);
-        $("#lastGif").attr("src", "/gif?path=" + lastGifPath);
+        $("#lastGif").attr("src", "/last_gif?path=" + lastGifPath);
         $("#process").css("display", "block");
 
     } else {

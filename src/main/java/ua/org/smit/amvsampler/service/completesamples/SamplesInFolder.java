@@ -22,6 +22,7 @@ import ua.org.smit.amvsampler.util.TextOnFile;
 public class SamplesInFolder {
 
     private static final Logger log = LogManager.getLogger(SamplesInFolder.class);
+    private static final String RECOMPRESSED_MARKER_FILE_NAME = "recompressed.txt";
 
     static ArrayList<Sample> get(String folderName) {
         log.info("Get samples from: " + folderName);
@@ -64,23 +65,18 @@ public class SamplesInFolder {
         Sample sample = new Sample();
         sample.setParentFolder(folderSs.getParentFile());
         sample.setSs(Integer.valueOf(folderSs.getName()));
-        sample.setGif(getByExtension(files, "gif"));
-        sample.setMp4(getByExtension(files, "mp4"));
+        sample.setGif(FilesUtil.findByExtension(files, "gif"));
+        sample.setMp4(FilesUtil.findByExtension(files, "mp4"));
         sample.setAvgPercent(readAvgPercet(files));
+        sample.setTitle(folderSs.getParentFile().getName());
+        sample.setReCompressed(isRecompressedMarkerExist(folderSs));
         return sample;
     }
 
-    private static File getByExtension(ArrayList<File> files, String extension) throws FileNotFoundException {
-        for (File file : files) {
-            if (FilesUtil.getFileExtension(file).equalsIgnoreCase(extension)) {
-                return file;
-            }
-        }
-        throw new FileNotFoundException();
-    }
+    
 
     private static int readAvgPercet(ArrayList<File> files) throws FileNotFoundException {
-        File percentFile = getByExtension(files, "txt");
+        File percentFile = FilesUtil.findByExtension(files, "txt");
         if (percentFile.getName().contains(Settings.AVG_PERCENT_FILE_NAME)) {
             String percentString = TextOnFile.readByLine(percentFile).get(0);
             return Integer.valueOf(percentString);
@@ -129,5 +125,13 @@ public class SamplesInFolder {
             }
         }
         throw new RuntimeException("Not found sample by ss=" + ss);
+    }
+
+    private static boolean isRecompressedMarkerExist(File folderSs) {
+        return new File(folderSs + File.separator + RECOMPRESSED_MARKER_FILE_NAME).exists();
+    }
+    
+    public static void createRecompressedMarker(File folderSs){
+        FilesUtil.makeEmptyFile(new File(folderSs + File.separator + RECOMPRESSED_MARKER_FILE_NAME));
     }
 }

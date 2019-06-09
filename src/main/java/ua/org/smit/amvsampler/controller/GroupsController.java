@@ -7,6 +7,7 @@ package ua.org.smit.amvsampler.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ import ua.org.smit.amvsampler.messages.MessagesService;
 import ua.org.smit.amvsampler.messages.Type;
 import ua.org.smit.amvsampler.service.completesamples.CompleteSamplesInterface;
 import ua.org.smit.amvsampler.service.completesamples.Sample;
-import ua.org.smit.amvsampler.service.encodersamples.ExportEncodeSamplesQueue;
+import ua.org.smit.amvsampler.service.exportsamples.ExportSamplesService;
 import ua.org.smit.amvsampler.service.groups.GroupType;
 import ua.org.smit.amvsampler.service.groups.GroupsInterface;
 import ua.org.smit.amvsampler.service.settings.Settings;
@@ -41,9 +42,11 @@ public class GroupsController {
     private CompleteSamplesInterface completeSamples;
     @Autowired
     private GroupsInterface groups;
+    @Autowired
+    private ExportSamplesService exportSamplesService;
 
     private final String titlesType = GroupType.TITLES.toString().toLowerCase();
-    private final String samplesType = GroupType.SAMPLES.toString().toLowerCase();
+    private final String tagsType = GroupType.TAGS.toString().toLowerCase();
 
     @RequestMapping(value = {"/view_group"}, method = RequestMethod.GET)
     public String baseOfSamplesNotSorted(
@@ -74,7 +77,7 @@ public class GroupsController {
         if (groupType.equals(titlesType)) {
             ArrayList<File> foldersWithSplitedFiles = groups.getTitles(groupName);
             samples = completeSamples.getSamples(foldersWithSplitedFiles);
-        } else if (groupType.equals(samplesType)) {
+        } else if (groupType.equals(tagsType)) {
             ArrayList<String> samplesSsPath = groups.getSamples(groupName);
             samples = completeSamples.getSamplesByPaths(samplesSsPath);
         }
@@ -97,8 +100,8 @@ public class GroupsController {
 
         if (groupType.equalsIgnoreCase(titlesType)) {
             model.addAttribute("groups", groups.getGroups(GroupType.TITLES));
-        } else if (groupType.equalsIgnoreCase(samplesType)) {
-            model.addAttribute("groups", groups.getGroups(GroupType.SAMPLES));
+        } else if (groupType.equalsIgnoreCase(tagsType)) {
+            model.addAttribute("groups", groups.getGroups(GroupType.TAGS));
         }
 
         model.addAttribute("groupType", groupType);
@@ -117,8 +120,8 @@ public class GroupsController {
         if (groupType.equalsIgnoreCase(titlesType)) {
             groups.createGroup(groupName, GroupType.TITLES);
 
-        } else if (groupType.equalsIgnoreCase(samplesType)) {
-            groups.createGroup(groupName, GroupType.SAMPLES);
+        } else if (groupType.equalsIgnoreCase(tagsType)) {
+            groups.createGroup(groupName, GroupType.TAGS);
         }
 
         return "redirect:groups?groupType=" + groupType;
@@ -148,8 +151,8 @@ public class GroupsController {
         if (groupType.equalsIgnoreCase(titlesType)) {
             groups.deleteGroup(groupName, GroupType.TITLES);
             messagesService.add(Type.info, "Group '" + groupName + "' has deleted!");
-        } else if (groupType.equalsIgnoreCase(samplesType)) {
-            groups.deleteGroup(groupName, GroupType.SAMPLES);
+        } else if (groupType.equalsIgnoreCase(tagsType)) {
+            groups.deleteGroup(groupName, GroupType.TAGS);
             messagesService.add(Type.info, "Group '" + groupName + "' has deleted!");
         }
 
@@ -169,8 +172,8 @@ public class GroupsController {
 
         if (groupType.equalsIgnoreCase(titlesType)) {
             model.addAttribute("groups", groups.getGroups(GroupType.TITLES));
-        } else if (groupType.equalsIgnoreCase(samplesType)) {
-            model.addAttribute("groups", groups.getGroups(GroupType.SAMPLES));
+        } else if (groupType.equalsIgnoreCase(tagsType)) {
+            model.addAttribute("groups", groups.getGroups(GroupType.TAGS));
         }
 
         return "add_in_group_form";
@@ -184,10 +187,10 @@ public class GroupsController {
             @RequestParam(value = "selected_action") String selectedAction) {
 
         if (selectedAction.equalsIgnoreCase("export_selected")) {
-            ExportEncodeSamplesQueue.instance();
-            ArrayList<File> titles = SelectedSamples.fingFromRequestAsFiles(request);
-            ExportEncodeSamplesQueue.samples.addAll(titles);
-            messagesService.add(Type.success, titles.size() + " samples added to export queue!");
+            ArrayList<File> samplesMp4Paths = SelectedSamples.fingFromRequestAsFiles(request);
+            List<Sample> samplesExport = completeSamples.getSamplesByMP4(samplesMp4Paths);
+            exportSamplesService.export(samplesExport, Settings.getExportFolder());
+            messagesService.add(Type.success, samplesExport.size() + " samples added to export queue!");
 
         } else if (selectedAction.equalsIgnoreCase("delete_selected")) {
             ArrayList<File> titles = groups.getTitlesFromSamplesGroup(groupName);

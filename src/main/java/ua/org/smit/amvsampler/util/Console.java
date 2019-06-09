@@ -23,7 +23,7 @@ public class Console {
     private static final int sleep = 0;
 
     public static void exec(String cmd) {
-        log.info("START exec cmd: " + cmd);
+//        log.debug("START exec cmd: " + cmd);
         try {
             Process process;
             if (System.getProperty("os.name").contains("Windows")) {
@@ -37,7 +37,7 @@ public class Console {
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(process.getInputStream()));
             while ((s = br.readLine()) != null) {
-                log.info("line: " + s);
+                log.debug("line: " + s);
             }
             process.waitFor();
             if (process.exitValue() == 1) {
@@ -49,7 +49,7 @@ public class Console {
         } catch (Exception ex) {
             log.error(ex);
         }
-        log.info("END exec cmd.");
+//        log.debug("END exec cmd.");
         try {
             sleep(sleep);
         } catch (InterruptedException ex) {

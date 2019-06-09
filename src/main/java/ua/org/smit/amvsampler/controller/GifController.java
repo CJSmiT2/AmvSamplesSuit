@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ua.org.smit.amvsampler.service.splitanalyzeengine.EngineSplitAnalyze;
 import ua.org.smit.amvsampler.util.Base64Util;
 
 /**
@@ -29,9 +31,18 @@ public class GifController {
     private final Base64Util base64 = new Base64Util();
 
     @ResponseBody
+    @RequestMapping(value = "/last_gif")
+    public ResponseEntity lastGif(){
+        String imageTmpName = UUID.randomUUID().toString() + ".gif"; // kostil for cache
+        byte[] fileBytes = EngineSplitAnalyze.getLastGif();
+        HttpHeadersPreset headers = new HttpHeadersPreset(imageTmpName, "image/gif", fileBytes.length);
+        return new ResponseEntity(fileBytes, headers.getData(), HttpStatus.OK);
+    }
+    
+    @ResponseBody
     @RequestMapping(value = "/gif")
     public ResponseEntity gif(@RequestParam("path") String path) throws FileNotFoundException, IOException {
-
+        
         path = base64.decode(path);
         File gif = new File(path);
         if (!gif.exists()) {

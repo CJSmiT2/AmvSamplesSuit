@@ -10,5 +10,5 @@ package ua.org.smit.amvsampler.service.groups;
  * @author smit
  */
 public enum GroupType {
-    SAMPLES, TITLES
+    TAGS, TITLES
 }

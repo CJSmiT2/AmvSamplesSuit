@@ -15,11 +15,10 @@ import ua.org.smit.amvsampler.service.CompleteAndQueueListsImpl;
 import ua.org.smit.amvsampler.service.CompleteAndQueueListsInterface;
 import ua.org.smit.amvsampler.service.completesamples.CompleteSamplesImpl;
 import ua.org.smit.amvsampler.service.completesamples.CompleteSamplesInterface;
+import ua.org.smit.amvsampler.service.exportsamples.ExportSamplesService;
 import ua.org.smit.amvsampler.service.groups.GroupsImpl;
 import ua.org.smit.amvsampler.service.groups.GroupsInterface;
 import ua.org.smit.amvsampler.service.settings.Settings;
-import ua.org.smit.amvsampler.service.statistics.StatisticsInfoImpl;
-import ua.org.smit.amvsampler.service.statistics.StatisticsInfoInterface;
 
 @Configuration
 @SpringBootApplication
@@ -55,12 +54,12 @@ public class AmvSamplesSuit {
     }
 
     @Bean
-    public StatisticsInfoInterface statisticsInfo() {
-        return new StatisticsInfoImpl();
-    }
-
-    @Bean
     public StartBrowser startBrowser() {
         return new StartBrowser();
+    }
+    
+    @Bean
+    public ExportSamplesService exportSamplesService(){
+        return new ExportSamplesService();
     }
 }

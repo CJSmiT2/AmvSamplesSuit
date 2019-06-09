@@ -50,7 +50,7 @@
                                 <c:if test="${groupType == 'titles'}">
                                     <a href="view_group?groupType=${groupType}&groupName=${group}">${group}</a>
                                 </c:if>
-                                <c:if test="${groupType == 'samples'}">
+                                <c:if test="${groupType == 'tags'}">
                                     ${group}
                                 </c:if>
                             </td>
@@ -63,7 +63,5 @@
             </table>
             
         </div>
-        <script src="${pageContext.request.contextPath}/resources/js/export_queue_info_ajax.js"></script>
-        <jsp:include page="export_samples_info.jsp" />
    </body>
 </html>

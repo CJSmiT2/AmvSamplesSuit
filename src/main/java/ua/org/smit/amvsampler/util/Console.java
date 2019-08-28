@@ -23,7 +23,7 @@ public class Console {
     private static final int sleep = 0;
 
     public static void exec(String cmd) {
-//        log.debug("START exec cmd: " + cmd);
+        log.debug("+++ START exec cmd: " + cmd);
         try {
             Process process;
             if (System.getProperty("os.name").contains("Windows")) {
@@ -43,13 +43,13 @@ public class Console {
             if (process.exitValue() == 1) {
                 log.error("ERROR of execute command!");
                 process.destroy();
-                throw new RuntimeException();
+                throw new Exception();
             }
 
         } catch (Exception ex) {
             log.error(ex);
         }
-//        log.debug("END exec cmd.");
+        log.debug("END exec cmd.");
         try {
             sleep(sleep);
         } catch (InterruptedException ex) {

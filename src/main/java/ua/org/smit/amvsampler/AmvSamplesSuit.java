@@ -25,6 +25,7 @@ import ua.org.smit.amvsampler.service.settings.Settings;
 public class AmvSamplesSuit {
 
     public static void main(String[] args) {
+        System.out.println("+++++ START +++++");
         SpringApplication.run(AmvSamplesSuit.class, args);
     }
 

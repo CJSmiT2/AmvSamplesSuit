@@ -7,19 +7,19 @@ import ua.org.smit.amvsampler.service.completesamples.Sample;
 import ua.org.smit.amvsampler.service.settings.Settings;
 
 public class RecompresserSamples {
-    
+
     public static void main(String[] args) {
         Settings settings = new Settings();
         CompleteSamplesInterface completeSamples = new CompleteSamplesImpl();
         Recompresser recompresser = new Recompresser();
-       
-       for (Sample sample : completeSamples.getNotRecompressedSamples()){
+
+        for (Sample sample : completeSamples.getNotRecompressedSamples()) {
             boolean result = recompresser.recompress(sample);
-            if (!result){
+            if (!result) {
                 throw new RuntimeException("Err of recompression: " + sample);
             }
             completeSamples.markSampleAsRecompressed(sample);
-       }
+        }
     }
-    
+
 }

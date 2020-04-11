@@ -19,7 +19,7 @@ public class StartBrowser {
 
     public StartBrowser() {
 
-        String url = "http://127.0.0.1:8080";
+        String url = "http://127.0.0.1:9090";
         log.info("Open app in prowser. Url: " + url);
         if (System.getProperty("os.name").contains("Linux")) {
             Console.exec("xdg-open " + url);

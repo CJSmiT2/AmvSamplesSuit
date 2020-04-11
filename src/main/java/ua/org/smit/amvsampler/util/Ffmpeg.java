@@ -56,18 +56,18 @@ public class Ffmpeg {
         File partOfFile = new File(completedFolder + File.separator + sampleFilename);
         deleteIfExist(partOfFile);
 
-        for (int tryStep = 0; tryStep < 10; tryStep ++){
+        for (int tryStep = 0; tryStep < 10; tryStep++) {
             Console.exec("ffmpeg "
                     + "-ss " + startSeconds + " "
                     + "-t " + time + " "
                     + "-i " + fileSrc + " "
                     + "-map 0:" + tryStep + " "
                     + "-vcodec copy -an " + partOfFile);
-            if (partOfFile.exists()){
+            if (partOfFile.exists()) {
                 break;
             }
         }
-        
+
         validFile(partOfFile);
 
         return partOfFile;

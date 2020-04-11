@@ -98,9 +98,9 @@ public class ProcessSelectedSamplesController {
 
         return "redirect:samples_folder?folderName=" + folderName;
     }
-    
+
     @RequestMapping(value = "/open_export_sample_folder_in_explorer/{sampleFolder}")
-    public String openExportSampleFolderInExplorer(@PathVariable String sampleFolder){
+    public String openExportSampleFolderInExplorer(@PathVariable String sampleFolder) {
         new OpenExportFolderInWindow(Settings.getExportFolder() + File.separator + sampleFolder);
         return "ok";
     }

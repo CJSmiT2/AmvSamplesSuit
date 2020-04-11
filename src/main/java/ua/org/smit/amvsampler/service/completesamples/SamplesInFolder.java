@@ -73,8 +73,6 @@ public class SamplesInFolder {
         return sample;
     }
 
-    
-
     private static int readAvgPercet(ArrayList<File> files) throws FileNotFoundException {
         File percentFile = FilesUtil.findByExtension(files, "txt");
         if (percentFile.getName().contains(Settings.AVG_PERCENT_FILE_NAME)) {
@@ -130,8 +128,8 @@ public class SamplesInFolder {
     private static boolean isRecompressedMarkerExist(File folderSs) {
         return new File(folderSs + File.separator + RECOMPRESSED_MARKER_FILE_NAME).exists();
     }
-    
-    public static void createRecompressedMarker(File folderSs){
+
+    public static void createRecompressedMarker(File folderSs) {
         FilesUtil.makeEmptyFile(new File(folderSs + File.separator + RECOMPRESSED_MARKER_FILE_NAME));
     }
 }

@@ -40,7 +40,7 @@ public class TagController {
     private CompleteSamplesInterface completeSamples;
     @Autowired
     private GroupsInterface groups;
-    
+
     private final Base64Util base64 = new Base64Util();
 
     private static ArrayList<Sample> allSamplesInstance;

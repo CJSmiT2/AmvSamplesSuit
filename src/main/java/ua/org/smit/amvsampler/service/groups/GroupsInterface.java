@@ -46,7 +46,7 @@ public interface GroupsInterface {
     ArrayList<File> findTitlesWithoutGroups(ArrayList<File> allSamplesFolders);
 
     ArrayList<File> getTitlesFromSamplesGroup(String groupName);
-    
+
     boolean isExistInAnyTagGroup(String sample);
 
 }

@@ -49,7 +49,7 @@ class TmpFile {
     }
 
     private static void copySrcToDest(File srcVideo, File destFile) {
-        if (!destFile.exists() || ( srcVideo.length() != destFile.length() )) {
+        if (!destFile.exists() || (srcVideo.length() != destFile.length())) {
             log.info("Copy:\nsrc = " + srcVideo + "\ntmp = " + destFile);
 
             long time = System.currentTimeMillis();
@@ -57,7 +57,7 @@ class TmpFile {
 
             log.info("Copy is complete! Time: " + ((System.currentTimeMillis() - time) / 1000) + "sec");
         } else {
-            log.info("File not copied, because already exist! "  + destFile);
+            log.info("File not copied, because already exist! " + destFile);
         }
     }
 

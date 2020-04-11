@@ -132,13 +132,13 @@ public class GroupsImpl implements GroupsInterface {
     public ArrayList<File> getTitlesFromSamplesGroup(String groupName) {
         return GroupsService.getTitlesFromSamplesGroup(groupName);
     }
-    
+
     @Override
     public boolean isExistInAnyTagGroup(String sampleInput) {
         log.debug("Check in tag group: " + sampleInput);
-        for (String sample : getFromAllGroups(GroupType.TAGS)){
+        for (String sample : getFromAllGroups(GroupType.TAGS)) {
             log.debug("\nneed: " + sampleInput + "\ncurr: " + sample);
-            if (sample.equals(sampleInput)){
+            if (sample.equals(sampleInput)) {
                 log.debug("exist");
                 return true;
             }
@@ -146,5 +146,5 @@ public class GroupsImpl implements GroupsInterface {
         log.debug("NOT EXIST");
         return false;
     }
-    
+
 }

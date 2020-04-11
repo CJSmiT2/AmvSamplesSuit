@@ -98,7 +98,7 @@ public class CompleteSamplesImpl implements CompleteSamplesInterface {
     @Override
     public ArrayList<Sample> getAllSamples() {
         ArrayList<Sample> samples = new ArrayList();
-        for (File titleFolder : getFoldersWithSplitedFiles()){
+        for (File titleFolder : getFoldersWithSplitedFiles()) {
             ArrayList<File> folders = new ArrayList();
             folders.add(titleFolder);
             ArrayList<Sample> samplesFromFolder = getSamples(folders);
@@ -128,7 +128,7 @@ public class CompleteSamplesImpl implements CompleteSamplesInterface {
     @Override
     public List<Sample> getSamplesByMP4(List<File> mp4Paths) {
         List<Sample> samples = new ArrayList();
-        for (File mp4Path : mp4Paths){
+        for (File mp4Path : mp4Paths) {
             try {
                 samples.add(CompleteSamplesService.getSampleByMp4Path(mp4Path));
             } catch (FileNotFoundException ex) {

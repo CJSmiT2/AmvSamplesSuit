@@ -58,9 +58,9 @@ public class AmvSamplesSuit {
     public StartBrowser startBrowser() {
         return new StartBrowser();
     }
-    
+
     @Bean
-    public ExportSamplesService exportSamplesService(){
+    public ExportSamplesService exportSamplesService() {
         return new ExportSamplesService();
     }
 }

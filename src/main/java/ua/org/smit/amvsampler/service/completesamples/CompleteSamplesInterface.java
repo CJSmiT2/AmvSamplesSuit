@@ -43,14 +43,14 @@ public interface CompleteSamplesInterface {
     ArrayList<Sample> get(String folderName);
 
     Sample getSample(File folderSs);
-    
+
     Sample getSample(String titleFolder, int ss);
-    
+
     ArrayList<Sample> getAllSamples();
-    
+
     List<Sample> getNotRecompressedSamples();
-    
+
     void markSampleAsRecompressed(Sample sample);
-    
+
     List<Sample> getSamplesByMP4(List<File> mp4Paths);
 }

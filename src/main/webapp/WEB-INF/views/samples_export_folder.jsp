@@ -16,7 +16,7 @@
             <h3>${exportFolder}</h3>
             <div class="panel-body">
                 <c:forEach var="sampleExport" items="${samplesExport}">
-                    <div class="img-thumbnail">
+                    <div class="img-thumbnail " >
                         <a onClick="openExportSampleFolderInExplorer('${sampleExport.getSampleName()}')">
                             <img src="gif?path=${base64.encode(sampleExport.getGif())}">
                         </a>

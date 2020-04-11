@@ -20,6 +20,7 @@ public class Sample {
     private int ss;
     private String title;
     private boolean reCompressed;
+    private boolean ixistInExportFolder;
 
     public File getParentFolder() {
         return parentFolder;
@@ -83,6 +84,14 @@ public class Sample {
 
     public void setReCompressed(boolean reCompressed) {
         this.reCompressed = reCompressed;
+    }
+
+    public boolean isIxistInExportFolder() {
+        return ixistInExportFolder;
+    }
+
+    public void setIxistInExportFolder(boolean ixistInExportFolder) {
+        this.ixistInExportFolder = ixistInExportFolder;
     }
 
     public String getTime() {

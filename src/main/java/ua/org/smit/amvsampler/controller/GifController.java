@@ -32,17 +32,17 @@ public class GifController {
 
     @ResponseBody
     @RequestMapping(value = "/last_gif")
-    public ResponseEntity lastGif(){
+    public ResponseEntity lastGif() {
         String imageTmpName = UUID.randomUUID().toString() + ".gif"; // kostil for cache
         byte[] fileBytes = EngineSplitAnalyze.getLastGif();
         HttpHeadersPreset headers = new HttpHeadersPreset(imageTmpName, "image/gif", fileBytes.length);
         return new ResponseEntity(fileBytes, headers.getData(), HttpStatus.OK);
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "/gif")
     public ResponseEntity gif(@RequestParam("path") String path) throws FileNotFoundException, IOException {
-        
+
         path = base64.decode(path);
         File gif = new File(path);
         if (!gif.exists()) {

@@ -5,6 +5,7 @@
  */
 package ua.org.smit.amvsampler.controller;
 
+import ua.org.smit.amvsampler.util.MarkSamples;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import ua.org.smit.amvsampler.messages.Type;
 import ua.org.smit.amvsampler.service.completesamples.CompleteSamplesInterface;
 import ua.org.smit.amvsampler.service.completesamples.Sample;
 import ua.org.smit.amvsampler.service.exportsamples.ExportSamplesService;
+import ua.org.smit.amvsampler.service.exportsamples.SampleExport;
 import ua.org.smit.amvsampler.service.groups.GroupType;
 import ua.org.smit.amvsampler.service.groups.GroupsInterface;
 import ua.org.smit.amvsampler.service.settings.Settings;
@@ -81,6 +83,12 @@ public class GroupsController {
             ArrayList<String> samplesSsPath = groups.getSamples(groupName);
             samples = completeSamples.getSamplesByPaths(samplesSsPath);
         }
+
+        ArrayList<SampleExport> samplesFromExportFolder
+                = new ExportSamplesService().getExportSamples(Settings.getExportFolder());
+
+        MarkSamples markSamples = new MarkSamples();
+        markSamples.marksamplesThatAreInTheFolder(samples, samplesFromExportFolder);
 
         model.addAttribute("samples", samples);
         model.addAttribute("groupName", groupName);

@@ -99,7 +99,7 @@ class VideoFile {
 
     private void writeAvgPercentInTxt(File singleCutFile, int avgPercent) {
         File fileWithAvgPercent = new File(singleCutFile.getParentFile() + File.separator + avgPercent + "-" + Settings.AVG_PERCENT_FILE_NAME);
-        log.debug("Write avg percent. " + avgPercent +"% File - " + fileWithAvgPercent);
+        log.debug("Write avg percent. " + avgPercent + "% File - " + fileWithAvgPercent);
         TextOnFile.addTextInFile(fileWithAvgPercent, String.valueOf(avgPercent));
     }
 

@@ -36,6 +36,16 @@ public class SampleExport {
         this.gif = gif;
     }
 
+    public int getSS() {
+        String endOfName = mp4.getName().split("_ss_")[1];
+        String ss = endOfName.split("\\.")[0];
+        return Integer.valueOf(ss);
+    }
+
+    public String getTitle() {
+        return mp4.getName().split("_ss_")[0];
+    }
+
     @Override
     public String toString() {
         return "SampleExport{" + "sampleName=" + sampleName + ", mp4=" + mp4 + ", gif=" + gif + '}';
